@@ -1,0 +1,13 @@
+schema_version: 1
+
+name: &imgName "wildfly/wildfly-uberjar-runtime-centos7"
+description: "The WildFly uberjar runtime image"
+version: &imgVersion "dev"
+from: "wildfly/wildfly-runtime-centos7:dev"
+
+modules:
+      repositories:
+          - name: wildfly-s2i-modules
+            path: ../wildfly-modules
+      install:
+          - name: jboss.container.wildfly.s2i-wildfly.uberjar

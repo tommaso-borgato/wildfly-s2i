@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export CONFIG_ADJUSTMENT_MODE=cli
+
+mkdir -p $JBOSS_HOME
+cp /tmp/src/wildfly-uberjar.jar $JBOSS_HOME
