@@ -76,6 +76,17 @@ $ cd tools
 $ ./build-app-image.sh <path to your app maven project> [--app-name=<application name>] [--galleon-layers=<comma separated list of layers>] [--wildfly-builder-image=<wildfly s2i builder image>] [--wildfly-runtime-image=<wildfly runtime image>]
 ```
 
+Installing WildFly galleon s2i feature-pack in local repository
+
+In some cases it can be of interest to do a local provisioning of the WildFly server tuned for Openshift. This can be achieved by using the script `tools/install-local-feature-pack.sh [image]`. By default it uses `quay.io/wildfly/wildfly-centos7`
+
+```
+$ cd tools
+$ ./install-local-feature-pack.sh [image-name]
+```
+
+Once installed, you can use galleon CLI tool to provision a server, for example: `galleon.sh install org.wildfly.galleon.s2i:wildfly-s2i-galleon-pack:18.0.0.Final --dir=<your dir> --layers=cloud-server"
+
 S2I Usage
 ---------
 To build a simple [jee application](https://github.com/openshift/openshift-jee-sample)
