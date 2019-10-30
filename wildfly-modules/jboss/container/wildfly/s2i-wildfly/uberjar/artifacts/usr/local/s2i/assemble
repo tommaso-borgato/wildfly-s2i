@@ -3,12 +3,24 @@
 jarFile=$(find /tmp/src -type f -iname "*-uberjar.jar")
 
 if [ ! -f "$jarFile" ]; then
-  echo "Error no wildfly uber jar found."
+  echo "ERROR: No wildfly uber jar found."
   exit 1
 fi
 
 java -Dopenshift -jar "$jarFile"
 
+if [ $? != 0 ]; then
+  echo "ERROR: Server installation failed"
+  exit 1
+fi
+
 rm -rf $jarFile
 
+if [ ! -d $JBOSS_HOME ]; then
+  echo "ERROR: $JBOSS_HOME as not been populated"
+  exit 1
+fi
+
 chmod -R ug+rwX $JBOSS_HOME
+
+echo "Successful installation of server and application in $JBOSS_HOME"
