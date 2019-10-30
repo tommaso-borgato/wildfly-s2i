@@ -1,6 +1,12 @@
 #!/bin/sh
 
-export CONFIG_ADJUSTMENT_MODE=cli
+jarFile=$(find /tmp/src -type f -iname "*-uberjar.jar")
 
-mkdir -p $JBOSS_HOME
-cp /tmp/src/wildfly-uberjar.jar $JBOSS_HOME
+if [ ! -f "$jarFile" ]; then
+  echo "Error no wildfly uber jar found."
+  exit 1
+fi
+
+java -Dopenshift -jar "$jarFile" 
+
+chmod -R ug+rwX $JBOSS_HOME

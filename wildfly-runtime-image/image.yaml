@@ -45,3 +45,5 @@ artifacts:
           target: jolokia-jvm-1.6.2-agent.jar
           url: https://repo1.maven.org/maven2/org/jolokia/jolokia-jvm/1.6.2/jolokia-jvm-1.6.2-agent.jar
           md5: d27b2fc0d1ed8ed50a7e661db839c83a
+run:
+      user: 185

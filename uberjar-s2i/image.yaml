@@ -11,3 +11,5 @@ modules:
             path: ../wildfly-modules
       install:
           - name: jboss.container.wildfly.s2i-wildfly.uberjar
+run:
+      user: 185
