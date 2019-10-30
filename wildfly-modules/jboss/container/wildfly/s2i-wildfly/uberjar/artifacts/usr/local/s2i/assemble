@@ -7,6 +7,8 @@ if [ ! -f "$jarFile" ]; then
   exit 1
 fi
 
-java -Dopenshift -jar "$jarFile" 
+java -Dopenshift -jar "$jarFile"
+
+rm -rf $jarFile
 
 chmod -R ug+rwX $JBOSS_HOME
