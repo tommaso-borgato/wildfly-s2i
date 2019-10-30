@@ -4,7 +4,8 @@ if [ -d "$JBOSS_HOME" ]; then
   if [ -f "$JBOSS_HOME/bin/openshift-launch.sh" ]; then
     exec "$JBOSS_HOME"/bin/openshift-launch.sh  
   else
-    exec "$JBOSS_HOME"/bin/standalone.sh  -b 0.0.0.0
+    hostname=$(hostname -i)
+    exec "$JBOSS_HOME"/bin/standalone.sh  -b $hostname -bmanagement 0.0.0.0
   fi
 else
   echo "ERROR: No $JBOSS_HOME directory"

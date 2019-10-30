@@ -1,3 +1,4 @@
+# MOVE THIS MODULE to wildfly-cekit-modules
 schema_version: 1
 name: jboss.container.wildfly.s2i-wildfly.uberjar
 version: '1.0'
