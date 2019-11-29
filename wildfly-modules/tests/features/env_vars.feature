@@ -22,12 +22,28 @@ Feature: Wildfly configured with env vars tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
- 
+
   Scenario:  Test execution of builder image and addition of json logging
     When container is started with env
       | variable               | value |
       | ENABLE_JSON_LOGGING    | true  |
     Then container log should contain WFLYSRV0025
+    Then container log should not contain Configuring the server using embedded server
+    Then file /opt/wildfly/standalone/configuration/logging.properties should contain handler.CONSOLE.formatter=OPENSHIFT
+    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value OPENSHIFT on XPath //*[local-name()='named-formatter']/@name
+    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value OPENSHIFT on XPath //*[local-name()='formatter']/@name
+    And check that page is served
+      | property | value |
+      | path     | /     |
+      | port     | 8080  |
+
+  Scenario: Test fallback to CLI process launched for configuration
+    When container is started with env
+      | variable               | value |
+      | ENABLE_JSON_LOGGING    | true  |
+      | EXECUTE_BOOT_SCRIPT_INVOKER | false |
+    Then container log should contain WFLYSRV0025
+    Then container log should contain Configuring the server using embedded server
     Then file /opt/wildfly/standalone/configuration/logging.properties should contain handler.CONSOLE.formatter=OPENSHIFT
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value OPENSHIFT on XPath //*[local-name()='named-formatter']/@name
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value OPENSHIFT on XPath //*[local-name()='formatter']/@name
