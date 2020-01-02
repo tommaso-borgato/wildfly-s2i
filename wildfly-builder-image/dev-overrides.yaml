@@ -11,8 +11,8 @@ modules:
               ref: 0.37.1
           - name: wildfly-cekit-modules
             git:
-              url: https://github.com/wildfly/wildfly-cekit-modules
-              ref: master
+              url: https://github.com/jfdenise/wildfly-cekit-modules
+              ref: keycloak-8
           - name: wildfly-s2i-modules
             path: ../wildfly-modules
 
