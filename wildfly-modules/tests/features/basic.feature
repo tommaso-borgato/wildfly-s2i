@@ -1,9 +1,9 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-builder
 Feature: Wildfly basic tests
 
   Scenario: Check if image version and release is printed on boot
     When container is ready
-    Then container log should contain Running wildfly/wildfly-centos7 image, version
+    Then container log should contain Running wildfly/wildfly-builder image, version
 
   Scenario: Add admin user to standard configuration
     When container is started with env
