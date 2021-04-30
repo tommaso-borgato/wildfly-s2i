@@ -6,8 +6,6 @@ env:
   CEKIT_VERSION: 3.2.1
   QUAY_REPO: ${{ secrets.QUAY_REPO }}
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-  QUICKSTARTS_ROBOT_NAME: ${{ secrets.QUICKSTARTS_ROBOT_NAME }}
-  QUICKSTARTS_ROBOT_PASSWORD: ${{ secrets.QUICKSTARTS_ROBOT_PASSWORD }}
 jobs:
   wfci:
     name: Wildfly-s2i Build and Test
@@ -25,7 +23,8 @@ jobs:
       - name: Check quay.io configuration
         if: env.QUAY_USERNAME == '' || env.QUAY_REPO == ''
         run: |
-          echo "quay.io configuration is incomplete, push to quay.io will be skipped. If you wish to push built images to quay.io, please ensure the secrets QUAY_REPO, QUAY_USERNAME and QUAY_PASSWORD are created in the project."
+          echo "quay.io configuration is incomplete, can't push to quay.io. To push built images to quay.io, please ensure the secrets QUAY_REPO, QUAY_USERNAME and QUAY_PASSWORD are created in the project."
+          exit 1
       - name: Setup required system packages
         run: |
           sudo apt-get update
@@ -57,6 +56,8 @@ jobs:
            s2i version
       - name: Build 
         run: |
+          echo "Docker Images prior to build wildfly-s2i images"
+          docker image ls
           . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
           make
           docker image ls
@@ -68,7 +69,7 @@ jobs:
           popd
       - name: Additional Tests
         run: |
-          export IMAGE_VERSION=dev
+          export IMAGE_VERSION=latest
           export NAMESPACE=wildfly
           export PLATFORM=centos7
           export IMAGE_NAME=${NAMESPACE}/wildfly-${PLATFORM}
@@ -78,48 +79,101 @@ jobs:
       - name: Push to quay.io
         if: env.QUAY_USERNAME != '' && env.QUAY_REPO != ''
         run: |
-            BUILDER_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7:latest"
-            RUNTIME_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-runtime-centos7:latest"
+            BUILDER_IMAGE_VERSION=$(./tools/release/get-image-version.sh wildfly/wildfly-centos7)
+            if [ -z ${BUILDER_IMAGE_VERSION} ]; then
+               echo "ERROR no builder image version found"
+               exit 1
+            fi
+            RUNTIME_IMAGE_VERSION=$(./tools/release/get-image-version.sh wildfly/wildfly-runtime-centos7)
+            if [ -z ${RUNTIME_IMAGE_VERSION} ]; then
+               echo "ERROR no builder image version found"
+               exit 1
+            fi
+            BUILDER_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7:${BUILDER_IMAGE_VERSION}"
+            RUNTIME_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-runtime-centos7:${RUNTIME_IMAGE_VERSION}"
+
+            LATEST_BUILDER_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7:latest"
+            LATEST_RUNTIME_IMAGE="quay.io/${{ secrets.QUAY_REPO }}/wildfly-runtime-centos7:latest"
+
+            # FOR NOW USE jfdenise and foo, will be replaced by wildfly organization when validated.
+            RELEASED_BUILDER_IMAGE="quay.io/jfdenise/wildfly-centos7:${BUILDER_IMAGE_VERSION}-foo"
+            RELEASED_RUNTIME_IMAGE="quay.io/jfdenise/wildfly-runtime-centos7:${RUNTIME_IMAGE_VERSION}-foo"
+
+            RELEASED_LATEST_BUILDER_IMAGE="quay.io/jfdenise/wildfly-centos7:latest-foo"
+            RELEASED_LATEST_RUNTIME_IMAGE="quay.io/jfdenise/wildfly-runtime-centos7:latest-foo"
+
             echo QUAY_REPO: "${{ secrets.QUAY_REPO }}"
-            echo Pushing to quay.io with the tag :latest
+            echo Pushing to quay.io
             echo BUILDER_IMAGE: ${BUILDER_IMAGE}
             echo RUNTIME_IMAGE: ${RUNTIME_IMAGE}
             docker login -u="${{ secrets.QUAY_USERNAME }}" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
-            docker tag wildfly/wildfly-centos7:latest ${BUILDER_IMAGE}
+            docker tag wildfly/wildfly-centos7:${BUILDER_IMAGE_VERSION} ${BUILDER_IMAGE}
+            docker tag wildfly/wildfly-centos7:${BUILDER_IMAGE_VERSION} ${LATEST_BUILDER_IMAGE}
             docker push ${BUILDER_IMAGE}
-            docker tag wildfly/wildfly-runtime-centos7:latest ${RUNTIME_IMAGE}
+            docker push ${LATEST_BUILDER_IMAGE}
+            docker tag wildfly/wildfly-runtime-centos7:${RUNTIME_IMAGE_VERSION} ${RUNTIME_IMAGE}
+            docker tag wildfly/wildfly-runtime-centos7:${RUNTIME_IMAGE_VERSION} ${LATEST_RUNTIME_IMAGE}
             docker push ${RUNTIME_IMAGE}
-      - name: 'deployment success'
-        if: success()
-        uses: 'deliverybot/status@70e18b94326d2119355ad60dbc3c0a8329241b90'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-      - name: Login Operator Quickstart quay.io registry
-        if: success()
-        run: docker login -u="${{ secrets.QUICKSTARTS_ROBOT_NAME }}" -p="${{ secrets.QUICKSTARTS_ROBOT_PASSWORD }}" quay.io
+            docker push ${LATEST_RUNTIME_IMAGE}
+            # Add all docker commands to be run by the release perform workflow
+            echo "docker pull ${BUILDER_IMAGE}" > perform-release.sh
+            echo "docker tag ${BUILDER_IMAGE} ${RELEASED_BUILDER_IMAGE}" >> perform-release.sh
+            echo "docker tag ${BUILDER_IMAGE} ${RELEASED_LATEST_BUILDER_IMAGE}" >> perform-release.sh
+            echo "docker pull ${RUNTIME_IMAGE}" >> perform-release.sh
+            echo "docker tag ${RUNTIME_IMAGE} ${RELEASED_RUNTIME_IMAGE}" >> perform-release.sh
+            echo "docker tag ${RUNTIME_IMAGE} ${RELEASED_LATEST_RUNTIME_IMAGE}" >> perform-release.sh
+            echo "docker push ${RELEASED_BUILDER_IMAGE}" >> perform-release.sh
+            echo "docker push ${RELEASED_LATEST_BUILDER_IMAGE}" >> perform-release.sh
+            echo "docker push ${RELEASED_RUNTIME_IMAGE}" >> perform-release.sh
+            echo "docker push ${RELEASED_LATEST_RUNTIME_IMAGE}" >> perform-release.sh
       - name: Build PostgreSQL example and push to quay.io
-        if: success()
+        if: env.QUAY_USERNAME != '' && env.QUAY_REPO != ''
         run: |
           s2i build https://github.com/wildfly/wildfly-s2i \
           -e GALLEON_PROVISION_LAYERS=jaxrs-server,postgresql-datasource,observability \
           -r master \
           --context-dir test/test-app-postgres \
           --loglevel=5 \
-          quay.io/wildfly/wildfly-centos7:latest \
+          quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7:latest \
           wildfly-s2i-builder-image
-          docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUICKSTARTS_ROBOT_NAME }}/taskrs-app:latest
-          docker push quay.io/${{ secrets.QUICKSTARTS_ROBOT_NAME }}/taskrs-app:latest
+          docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUAY_REPO }}/taskrs-app:latest
+          docker push quay.io/${{ secrets.QUAY_REPO }}/taskrs-app:latest
+          
+          # Add docker command to be run by the release perform workflow
+          # FOR NOW USE jfdenise and foo, will be replaced by wildfly organization when validated.
+          echo "docker pull quay.io/${{ secrets.QUAY_REPO }}/taskrs-app:latest" >> perform-release.sh
+          echo "docker tag quay.io/${{ secrets.QUAY_REPO }}/taskrs-app:latest quay.io/jfdenise/taskrs-app:latest-foo" >> perform-release.sh
+          echo "docker push quay.io/jfdenise/taskrs-app:latest-foo" >> perform-release.sh
       - name: Build Cluster Bench example and push to quay.io
+        if: env.QUAY_USERNAME != '' && env.QUAY_REPO != ''
         run: |
           s2i build https://github.com/clusterbench/clusterbench.git \
           -e MAVEN_ARGS_APPEND=-Pee8 \
           -e S2I_SOURCE_DEPLOYMENTS_DIR=clusterbench-ee8-ear/target \
           -e GALLEON_PROVISION_LAYERS=cloud-server,web-clustering,ejb,-ejb-local-cache,ejb-dist-cache,jsf \
-          quay.io/wildfly/wildfly-centos7:latest \
+          quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7:latest \
           wildfly-s2i-builder-image
-          docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUICKSTARTS_ROBOT_NAME }}/clusterbench:latest
-          docker push quay.io/${{ secrets.QUICKSTARTS_ROBOT_NAME }}/clusterbench:latest
+          docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
+          docker push quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
+          
+          # Add docker command to be run by the release perform workflow
+          # FOR NOW USE jfdenise and foo, will be replaced by wildfly organization when validated.
+          echo "docker pull quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest" >> perform-release.sh
+          echo "docker tag quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest quay.io/jfdenise/clusterbench:latest-foo" >> perform-release.sh
+          echo "docker push quay.io/jfdenise/clusterbench:latest-foo" >> perform-release.sh
+          
+      - name: Commit release file
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: 'Add perform-release.sh file to be used by github-perform-release.sh script'
+          add: 'perform-release.sh'
+      - name: 'deployment success'
+        if: success()
+        uses: 'deliverybot/status@70e18b94326d2119355ad60dbc3c0a8329241b90'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
       - name: 'deployment failure'
         if: failure()
         uses: 'deliverybot/status@70e18b94326d2119355ad60dbc3c0a8329241b90'
