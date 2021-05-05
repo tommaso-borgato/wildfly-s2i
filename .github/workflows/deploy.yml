@@ -15,11 +15,6 @@ jobs:
       - uses: n1hility/cancel-previous-runs@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: 'Deployment pending'
-        uses: 'deliverybot/status@70e18b94326d2119355ad60dbc3c0a8329241b90'
-        with:
-          state: 'pending'
-          token: '${{ secrets.GITHUB_TOKEN }}'
       - name: Check quay.io configuration
         if: env.QUAY_USERNAME == '' || env.QUAY_REPO == ''
         run: |
