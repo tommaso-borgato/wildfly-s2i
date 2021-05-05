@@ -8,9 +8,12 @@ on:
 env:
   LANG: en_US.UTF-8
   S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/latest
+  HELM_URI: https://api.github.com/repos/helm/helm/releases/latest
   CEKIT_VERSION: 3.2.1
   QUAY_REPO: ${{ secrets.QUAY_REPO }}
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+  OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+  OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
 jobs:
   wfci:
     name: Wildfly-s2i Image Deployment
@@ -40,7 +43,7 @@ jobs:
           pip install cekit==${{ env.CEKIT_VERSION }} docker docker-squash odcs behave lxml
       - name: install s2i binary
         run: |
-          echo ===== Installing s2i from ${{ env.S2I_URL }} =====
+          echo ===== Installing s2i from ${{ env.S2I_URI }} =====
           mkdir /tmp/s2i/ && cd /tmp/s2i/
           curl -s ${{ env.S2I_URI }} \
            | grep browser_download_url \
@@ -51,6 +54,18 @@ jobs:
            sudo mv s2i /usr/bin
            which s2i
            s2i version
+      - name: install helm
+        run: |
+          echo ===== Installing helm from ${{ env.HELM_URI }} =====
+          mkdir /tmp/helm/ && cd /tmp/helm/
+          HELM_TAG=$(curl -s ${{ env.HELM_URI }} \
+           | grep tag_name \
+           | cut -d '"' -f 4)
+          wget https://get.helm.sh/helm-$HELM_TAG-linux-amd64.tar.gz
+           tar xvf helm*.gz
+           sudo mv ./linux-amd64/helm /usr/bin
+           which helm
+           helm version
       - name: Build 
         run: |
           echo "Docker Images prior to build wildfly-s2i images"
@@ -109,3 +124,11 @@ jobs:
           wildfly-s2i-builder-image
           docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
           docker push quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+          openshift_token: ${{ env.OPENSHIFT_TOKEN }}
+          insecure_skip_tls_verify: true
+          
+          
