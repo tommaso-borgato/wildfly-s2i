@@ -138,10 +138,13 @@ jobs:
         if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         run: |
           # We want to allow for failure
-          exist=$(helm list | grep microprofile-config-app)
-          if [ -n "$exist" ]; then
-            helm uninstall microprofile-config-app
-          fi
+          set +e
+          helm uninstall microprofile-config-app
+          set -e
+#          exist=$(helm list | grep microprofile-config-app)
+#          if [ -n "$exist" ]; then
+#            helm uninstall microprofile-config-app
+#          fi
           helm install microprofile-config-app \
           wildfly/wildfly \
           -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/microprofile-config/microprofile-config-app-s2i.yaml \
