@@ -134,6 +134,7 @@ jobs:
           insecure_skip_tls_verify: true
       - name: Deploy quickstart
         run: |
+          helm uninstall microprofile-config-app
           helm install microprofile-config-app \
           wildfly/wildfly \
           -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/microprofile-config/microprofile-config-app-s2i.yaml \
