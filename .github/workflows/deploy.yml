@@ -55,6 +55,7 @@ jobs:
            which s2i
            s2i version
       - name: install helm and wildfly helm-charts
+        if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         run: |
           echo ===== Installing helm from ${{ env.HELM_URI }} =====
           mkdir /tmp/helm/ && cd /tmp/helm/
@@ -127,20 +128,23 @@ jobs:
 #          docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
 #          docker push quay.io/${{ secrets.QUAY_REPO }}/clusterbench:latest
       - name: Log in to OpenShift
+        if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
           openshift_token: ${{ env.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
       - name: Deploy quickstart
+        if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         run: |
-          helm uninstall microprofile-config-app
+          # We want to allow for failure
+          exist=$(helm list | grep microprofile-config-app)
+          if [ -n "$exist" ]; then
+            helm uninstall microprofile-config-app
+          fi
           helm install microprofile-config-app \
           wildfly/wildfly \
           -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/microprofile-config/microprofile-config-app-s2i.yaml \
           --set build.s2i.builderImage=quay.io/${{ secrets.QUAY_REPO }}/wildfly-centos7 \
           --set build.s2i.runtimeImage=quay.io/${{ secrets.QUAY_REPO }}/wildfly-runtime-centos7 \
           --set build.s2i.version=latest
-          
-          
-          
