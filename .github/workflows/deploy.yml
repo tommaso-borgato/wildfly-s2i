@@ -54,19 +54,14 @@ jobs:
            sudo mv s2i /usr/bin
            which s2i
            s2i version
-      - name: install helm and wildfly helm-charts
+      - name: Install helm
+        if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
+        uses: redhat-actions/openshift-tools-installer@v1.1
+        with:
+          helm: "3"
+      - name: Install WildFly charts
         if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         run: |
-          echo ===== Installing helm from ${{ env.HELM_URI }} =====
-          mkdir /tmp/helm/ && cd /tmp/helm/
-          HELM_TAG=$(curl -s ${{ env.HELM_URI }} \
-           | grep tag_name \
-           | cut -d '"' -f 4)
-          wget https://get.helm.sh/helm-$HELM_TAG-linux-amd64.tar.gz
-           tar xvf helm*.gz
-           sudo mv ./linux-amd64/helm /usr/bin
-           which helm
-           helm version
            helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
            helm search repo wildfly
       - name: Build 
