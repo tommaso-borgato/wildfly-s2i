@@ -52,10 +52,23 @@
     <modules>
         <module>app-profile-jee</module>
         <module>app-profile-jee-saml</module>
+        <module>all-apps</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>keycloak-quickstart-app-profile-jee-saml</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>keycloak-quickstart-app-profile-jee</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>jaxrs-api</artifactId>
