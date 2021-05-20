@@ -1,0 +1,21 @@
+
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+
+function maven_s2i_deploy_artifacts_override() {
+ mkdir -p $JBOSS_HOME
+ local artifact_dirs=${1:-${MAVEN_S2I_ARTIFACT_DIRS}}
+ provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/bootable-jar-build-artifacts/wildfly";
+ if [ ! -d "$provisioned_server" ]; then
+   provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/wildfly";
+   if [ ! -d "$provisioned_server" ]; then
+     log_error "No server provisioned found. exiting."
+     exit 1
+   fi
+ fi
+ log_info "Copying server from $provisioned_server to $JBOSS_HOME..."
+ cp -r -L "$provisioned_server"/* $JBOSS_HOME
+ if [ ! -f "${JBOSS_HOME}/bin/openshift-launch.sh" ]; then
+    echo "Linking openshift launcher."
+    ln -s "${JBOSS_HOME}"/bin/standalone.sh "$JBOSS_HOME"/bin/openshift-launch.sh
+  fi
+}

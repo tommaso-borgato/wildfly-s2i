@@ -1,14 +1,14 @@
 schema_version: 1
 
-name: &imgName "wildfly/wildfly-runtime-centos7"
+name: &imgName "wildfly/wildfly-runtime-ubi8"
 description: "The WildFly runtime image"
 version: &imgVersion "dev"
-from: "centos:7"
+from: "registry.access.redhat.com/ubi8/ubi-minimal"
 labels:
     - name: io.openshift.expose-services
       value: "8080:http,8778:jolokia"
     - name: io.openshift.tags
-      value: "wildfly,wildfly23"
+      value: "wildfly,wildfly"
     - name: maintainer
       value: "Jean-François Denise <jdenise@redhat.com>"
     - name: "org.jboss.deployments-dir"
@@ -43,6 +43,12 @@ modules:
           - name: jboss.container.jolokia
             version: '7'
 
+packages:
+  manager: microdnf
+  install:
+          # required by launch scripts
+          - hostname
+          
 artifacts:
         - name: jolokia-jvm
           target: jolokia-jvm-1.6.2-agent.jar

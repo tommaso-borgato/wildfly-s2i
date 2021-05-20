@@ -1,5 +1,9 @@
 #!/bin/sh
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+source "${JBOSS_CONTAINER_MAVEN_S2I_MODULE}/maven-s2i"
 
-export CONFIG_ADJUSTMENT_MODE=cli
-export MAVEN_ARGS_APPEND="${MAVEN_ARGS_APPEND} -Dcom.redhat.xpaas.repo.jbossorg"
-. "${JBOSS_CONTAINER_WILDFLY_S2I_MODULE}/assemble.sh"
+# include our overrides/extensions
+source "${JBOSS_CONTAINER_WILDFLY_S2I_MODULE}/s2i-core-hooks"
+
+# invoke the build
+maven_s2i_build
