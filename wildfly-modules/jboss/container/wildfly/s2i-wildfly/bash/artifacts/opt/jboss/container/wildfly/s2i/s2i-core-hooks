@@ -1,0 +1,27 @@
+
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+
+function maven_s2i_deploy_artifacts_override() {
+ mkdir -p $JBOSS_HOME
+ local artifact_dirs=${1:-${MAVEN_S2I_ARTIFACT_DIRS}}
+ echo S2I_SOURCE_DIR $S2I_SOURCE_DIR
+ ls $S2I_SOURCE_DIR
+ echo ARTIFACT DIRS ${artifact_dirs}
+ ls -l $S2I_SOURCE_DIR/$artifact_dirs
+ local server_dir=${S2I_SERVER_DIR:-server}
+ provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
+
+ if [ ! -d "$provisioned_server" ]; then
+    # A TMP workaround for bootable JAR usage.
+    local server_dir="${S2I_SERVER_DIR:-bootable-jar-build-artifacts/wildfly}"
+    provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
+    if [ ! -d "$provisioned_server" ]; then
+      log_error "No server provisioned found. Exiting."
+      exit 1
+    fi
+ fi
+ rm -rf "$provisioned_server"/standalone/tmp
+ rm -rf "$provisioned_server"/standalone/log
+ log_info "Copying server from $provisioned_server to $JBOSS_HOME..."
+ cp -r -L "$provisioned_server"/.* $JBOSS_HOME
+}
