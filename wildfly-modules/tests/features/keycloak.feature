@@ -1,6 +1,7 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-s2i-jdk11
 Feature: Keycloak tests
-
+  @ignore
+   # Needs rework of src structures
    Scenario: deploys the keycloak examples, then checks if it's deployed.
      Given XML namespaces
        | prefix | url                          |
@@ -16,6 +17,8 @@ Feature: Keycloak tests
     Then container log should contain WFLYSRV0010: Deployed "app-jsp.war"
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value demo on XPath //ns:realm/@name
 
+   @ignore
+   # Needs rework of src structures
    Scenario: deploys the keycloak examples using secure-deployments then checks if it's deployed.
      Given XML namespaces
        | prefix | url                          |
@@ -27,6 +30,8 @@ Feature: Keycloak tests
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jee.war"
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jee-saml.war"
 
+  @ignore
+  # Needs rework of src structures
   Scenario: deploys the keycloak examples, then checks if it's deployed in cloud-server,keycloak layers.
      Given XML namespaces
        | prefix | url                          |
@@ -42,7 +47,9 @@ Feature: Keycloak tests
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jsp.war"
     Then container log should contain WFLYSRV0010: Deployed "app-jsp.war"
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value demo on XPath //ns:realm/@name
-
+   
+   @ignore
+   # Needs rework of src structures
     Scenario: deploys the keycloak examples, then checks for custom security domain name.
      Given XML namespaces
        | prefix | url                          |
@@ -66,10 +73,9 @@ Feature: Keycloak tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:jboss:domain:keycloak:1.1 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-keycloak using master
+     Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-keycloak with env and true using wildfly-s2i-v2
        | variable                   | value                                            |
        | ARTIFACT_DIR               | app-profile-jee/target |
-       | GALLEON_PROVISION_LAYERS | datasources-web-server,keycloak |
     Then container log should contain Existing other application-security-domain is extended with support for keycloak
     Then container log should contain WFLYSRV0025
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jee.war"
@@ -82,9 +88,9 @@ Feature: Keycloak tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:jboss:domain:keycloak:1.1 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-keycloak using master
+     Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-keycloak with env and true using wildfly-s2i-v2
        | variable                   | value                                            |
-       | ARTIFACT_DIR               | app-profile-jee-saml/target,app-profile-jee/target |
+       | ARTIFACT_DIR               | all-apps/target |
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jee.war"
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jee-saml.war"
     And XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value demo on XPath //*[local-name()='realm']/@name
