@@ -33,9 +33,25 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
+    <repositories>
+        <repository>
+            <id>jboss-public-snapshots</id>
+            <name>JBoss Public Snapshots Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
     <properties>
         <version.org.wildfly>${env.WILDFLY_VERSION}</version.org.wildfly>
+        <version.org.wildfly.openshift.legacy.galleon-pack>${env.WILDFLY_LEGACY_OS_GALLEON_PACK_VERSION}</version.org.wildfly.openshift.legacy.galleon-pack>
         <version.org.wildfly.galleon.ds>${env.WILDFLY_EXTRAS_DS_VERSION}</version.org.wildfly.galleon.ds>
         <version.org.wildfly.galleon-plugins>${env.GALLEON_WILDFLY_VERSION}</version.org.wildfly.galleon-plugins>
     </properties>
@@ -51,6 +67,12 @@
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-datasources-galleon-pack</artifactId>
             <version>${version.org.wildfly.galleon.ds}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jfdenise.demo</groupId>
+            <artifactId>wildfly-openshift-legacy-galleon-pack</artifactId>
+            <version>${version.org.wildfly.openshift.legacy.galleon-pack}</version>
             <type>zip</type>
         </dependency>
     </dependencies>

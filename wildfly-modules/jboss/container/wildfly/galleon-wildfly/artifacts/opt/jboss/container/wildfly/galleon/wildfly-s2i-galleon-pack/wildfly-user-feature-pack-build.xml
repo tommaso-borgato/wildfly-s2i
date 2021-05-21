@@ -38,5 +38,10 @@
             <packages inherit="false"/>
             <default-configs inherit="false"/>
         </dependency>
+        <dependency group-id="org.jfdenise.demo" artifact-id="wildfly-openshift-legacy-galleon-pack">
+            <name>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack</name>
+            <packages inherit="false"/>
+            <default-configs inherit="false"/>
+        </dependency>
     </dependencies>
 </build>
