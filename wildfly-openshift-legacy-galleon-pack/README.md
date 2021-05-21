@@ -1,0 +1,1 @@
+# wildfly-openshift-legacy-galleon-pack
