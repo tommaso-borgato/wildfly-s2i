@@ -89,17 +89,19 @@
                     <context-root>false</context-root>
                     <feature-packs>
                         <feature-pack>
-                            <location>wildfly@maven(org.jboss.universe:community-universe)</location>
+                            <location>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack:1.0.0.Alpha2-SNAPSHOT</location>
                         </feature-pack>
                         <feature-pack>
-                            <location>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack:1.0.0.Alpha2-SNAPSHOT</location>
+                            <location>org.wildfly:wildfly-datasources-galleon-pack:2.0.0.Final</location>
                         </feature-pack>
                     </feature-packs>
                     <layers>
                         <layer>jaxrs-server</layer>
                         <layer>webservices</layer>
+                        <layer>web-clustering</layer>
                         <layer>microprofile-platform</layer>
                         <layer>keycloak</layer>
+                        <layer>postgresql-driver</layer>
                     </layers>
                     <plugin-options>
                         <jboss-fork-embedded>true</jboss-fork-embedded>
