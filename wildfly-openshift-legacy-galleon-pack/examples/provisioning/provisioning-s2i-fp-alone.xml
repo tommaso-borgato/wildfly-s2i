@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<installation xmlns="urn:jboss:galleon:provisioning:3.0">
+    <feature-pack location="org.wildfly.galleon.s2i:wildfly-s2i-galleon-pack:23.0.0.Final">
+        <default-configs inherit="false"/>
+        <packages inherit="false"/>
+    </feature-pack>
+    <config model="standalone" name="standalone.xml">
+        <layers>
+            <include name="jaxrs-server"/>
+            <include name="webservices"/>
+            <include name="microprofile-platform"/>
+            <include name="keycloak"/>
+            <include name="web-clustering"/>
+            <include name="postgresql-datasource"/>
+        </layers>
+    </config>
+    <options>
+        <option name="jboss-fork-embedded" value="true"/>
+        <option name="optional-packages" value="passive+"/>
+    </options>
+</installation>
