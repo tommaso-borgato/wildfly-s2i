@@ -49,6 +49,22 @@
             </snapshots>
         </repository>
     </repositories>
+       <pluginRepositories>
+    <pluginRepository>
+      <id>jboss-public-snapshots</id>
+      <name>JBoss Public Snapshots Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
     <properties>
         <version.org.wildfly>${env.WILDFLY_VERSION}</version.org.wildfly>
         <version.org.wildfly.openshift.legacy.galleon-pack>${env.WILDFLY_LEGACY_OS_GALLEON_PACK_VERSION}</version.org.wildfly.openshift.legacy.galleon-pack>
