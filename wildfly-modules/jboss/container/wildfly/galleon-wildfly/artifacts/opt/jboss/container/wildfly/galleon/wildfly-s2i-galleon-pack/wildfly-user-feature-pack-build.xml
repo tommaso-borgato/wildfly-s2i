@@ -28,6 +28,11 @@
         </dependency>
     </transitive>
     <dependencies>
+        <dependency group-id="org.jfdenise.demo" artifact-id="wildfly-openshift-legacy-galleon-pack">
+            <name>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack</name>
+            <packages inherit="false"/>
+            <default-configs inherit="false"/>
+        </dependency>
         <dependency group-id="org.wildfly" artifact-id="wildfly-galleon-pack">
             <name>org.wildfly:wildfly-galleon-pack</name>
             <packages inherit="true"/>
@@ -35,11 +40,6 @@
         </dependency>
         <dependency group-id="org.wildfly" artifact-id="wildfly-datasources-galleon-pack">
             <name>org.wildfly:wildfly-datasources-galleon-pack</name>
-            <packages inherit="false"/>
-            <default-configs inherit="false"/>
-        </dependency>
-        <dependency group-id="org.jfdenise.demo" artifact-id="wildfly-openshift-legacy-galleon-pack">
-            <name>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack</name>
             <packages inherit="false"/>
             <default-configs inherit="false"/>
         </dependency>
