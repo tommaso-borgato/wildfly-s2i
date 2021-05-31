@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 
-<config model="standalone" name="standalone.xml" xmlns="urn:jboss:galleon:config:1.0">
+<!-- The default config expects the wildfly-datasources-galleon-pack to be present in the provisioning config -->
+<config xmlns="urn:jboss:galleon:config:1.0" name="standalone.xml" model="standalone">
     <layers>
         <include name="mysql-datasource"/>
         <include name="postgresql-datasource"/>
@@ -90,8 +91,8 @@ env.MYSQL_DATASOURCE,env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:Exa
     <feature-group name="os-webservices"/>
 
     <!-- These packages are added by the jboss.container.wildfly.datasources-launch module -->
-    <!-- <packages>
+    <packages>
         <package name="wildfly.s2i.mysql"/>
         <package name="wildfly.s2i.postgresql"/>
-    </packages>-->
+    </packages>
 </config>

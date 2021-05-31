@@ -57,48 +57,20 @@
                 <version>4.2.8.Final</version>
                 <executions>
                     <execution>
-                        <id>provisioning</id>
+                        <id>provision a provisioning.xml file</id>
                         <goals>
-                            <goal>provision</goal>
+                            <goal>provision-file</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
                             <install-dir>${project.build.directory}/server</install-dir>
                             <record-state>true</record-state>
                             <offline>false</offline>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>wildfly@maven(org.jboss.universe:community-universe)</location>
-                                    <inheritConfigs>false</inheritConfigs>
-                                    <inheritPackages>true</inheritPackages>
-                                    <includedConfigs>
-                                        <config>
-                                            <name>standalone.xml</name>
-                                            <model>standalone</model>
-                                        </config>
-                                    </includedConfigs>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack:1.0.0.Alpha2-SNAPSHOT</location>
-                                    <inheritConfigs>false</inheritConfigs>
-                                    <inheritPackages>false</inheritPackages>
-                                    <includedPackages>
-                                        <package>wildfly.s2i.mysql</package>
-                                        <package>wildfly.s2i.postgresql</package>
-                                    </includedPackages>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-datasources-galleon-pack:2.0.0.Final</location>
-                                    <inheritConfigs>false</inheritConfigs>
-                                    <inheritPackages>false</inheritPackages>
-                                </feature-pack>
-                            </feature-packs>
-                            <custom-config>../config.xml</custom-config>
                             <plugin-options>
-                                <!--<jboss-maven-dist/>-->
-                                <jboss-fork-embedded>false</jboss-fork-embedded>
+                                <!-- required when running on JDK 11 -->
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
-                            <verbose>true</verbose>
+                            <provisioningFile>../provisioning.xml</provisioningFile>
                         </configuration>
                     </execution>
                 </executions>

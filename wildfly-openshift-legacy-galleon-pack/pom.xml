@@ -25,7 +25,7 @@
     </parent>
     <groupId>org.jfdenise.demo</groupId>
     <artifactId>wildfly-openshift-legacy-galleon-pack</artifactId>
-    <version>1.0.0.Alpha2-SNAPSHOT</version>
+    <version>1.0.0.Alpha3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WildFly legacy Galleon feature-pack for OpenShift</name>
   
@@ -63,6 +63,10 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
+                                <exec executable="./install-cct-module.sh">
+                                    <env key="CCT_MODULES_TAG" value="0.45.1"/>
+                                    <env key="CCT_MODULES_FORK" value="jboss-openshift"/>
+                                </exec>
                                 <exec executable="./install-cekit-modules.sh">
                                     <env key="WILDFLY_CEKIT_TAG" value="wildfly-s2i-v2"/>
                                     <env key="WILDFLY_CEKIT_FORK" value="jfdenise"/>
