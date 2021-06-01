@@ -25,7 +25,7 @@
     </parent>
     <groupId>org.wildfly</groupId>
     <artifactId>wildfly-cloud-legacy-galleon-pack</artifactId>
-    <version>23.0.2.Beta1-SNAPSHOT</version>
+    <version>23.0.2.Beta1</version>
     <packaging>pom</packaging>
     <name>WildFly legacy Galleon feature-pack for Cloud</name>
   
