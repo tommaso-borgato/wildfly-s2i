@@ -9,7 +9,7 @@ envs:
 - name: WILDFLY_EXTRAS_DS_VERSION
   value: "2.0.0.Final"
 - name:  WILDFLY_LEGACY_OS_GALLEON_PACK_VERSION
-  value: "1.0.0.Alpha3-SNAPSHOT"
+  value: "23.0.2.Beta1-SNAPSHOT"
 - name: GALLEON_DEFINITIONS
   value: /opt/jboss/container/wildfly/galleon/definitions
 - name: GALLEON_DEFAULT_SERVER

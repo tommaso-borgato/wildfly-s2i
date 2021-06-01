@@ -67,7 +67,7 @@
   </pluginRepositories>
     <properties>
         <version.org.wildfly>${env.WILDFLY_VERSION}</version.org.wildfly>
-        <version.org.wildfly.openshift.legacy.galleon-pack>${env.WILDFLY_LEGACY_OS_GALLEON_PACK_VERSION}</version.org.wildfly.openshift.legacy.galleon-pack>
+        <version.org.wildfly.cloud.legacy.galleon-pack>${env.WILDFLY_LEGACY_OS_GALLEON_PACK_VERSION}</version.org.wildfly.cloud.legacy.galleon-pack>
         <version.org.wildfly.galleon.ds>${env.WILDFLY_EXTRAS_DS_VERSION}</version.org.wildfly.galleon.ds>
         <version.org.wildfly.galleon-plugins>${env.GALLEON_WILDFLY_VERSION}</version.org.wildfly.galleon-plugins>
     </properties>
@@ -86,8 +86,8 @@
             <type>zip</type>
         </dependency>
         <dependency>
-            <groupId>org.jfdenise.demo</groupId>
-            <artifactId>wildfly-openshift-legacy-galleon-pack</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-cloud-legacy-galleon-pack</artifactId>
             <version>${version.org.wildfly.openshift.legacy.galleon-pack}</version>
             <type>zip</type>
         </dependency>
