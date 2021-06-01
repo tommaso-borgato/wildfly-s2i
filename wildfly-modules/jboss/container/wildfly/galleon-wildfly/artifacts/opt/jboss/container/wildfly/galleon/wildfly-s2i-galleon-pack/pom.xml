@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-cloud-legacy-galleon-pack</artifactId>
-            <version>${version.org.wildfly.openshift.legacy.galleon-pack}</version>
+            <version>${version.org.wildfly.cloud.legacy.galleon-pack}</version>
             <type>zip</type>
         </dependency>
     </dependencies>
@@ -101,7 +101,7 @@
                 <version>${version.org.wildfly.galleon-plugins}</version>
                 <executions>
                     <execution>
-                        <id>wildfly-openshift-feature-pack-build</id>
+                        <id>wildfly-cloud-feature-pack-build</id>
                         <goals>
                             <goal>build-user-feature-pack</goal>
                         </goals>

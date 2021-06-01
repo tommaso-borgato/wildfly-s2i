@@ -88,7 +88,7 @@
                 <version>${version.org.wildfly.galleon-plugins}</version>
                 <executions>
                     <execution>
-                        <id>wildfly-openshift-feature-pack-build</id>
+                        <id>wildfly-cloud-galleon-pack-build</id>
                         <goals>
                             <goal>build-feature-pack</goal>
                         </goals>
