@@ -89,7 +89,7 @@
                     <context-root>false</context-root>
                     <feature-packs>
                         <feature-pack>
-                            <location>org.jfdenise.demo:wildfly-openshift-legacy-galleon-pack:1.0.0.Alpha3-SNAPSHOT</location>
+                            <location>org.wildfly:wildfly-cloud-legacy-galleon-pack:23.0.2.Beta1-SNAPSHOT</location>
                         </feature-pack>
                         <feature-pack>
                             <location>org.wildfly:wildfly-datasources-galleon-pack:2.0.0.Final</location>

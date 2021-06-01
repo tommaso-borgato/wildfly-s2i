@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# Copy logging.sh file that is expected by launch scripts to be in JBOSS_HOME/bin/launch
 SCRIPT_DIR=$(pwd -P)/$(dirname $0)
 tmp_dir="$SCRIPT_DIR/target/tmp"
 resources_dir="$SCRIPT_DIR/target/resources"

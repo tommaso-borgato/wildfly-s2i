@@ -1,8 +1,8 @@
 #!/bin/sh
-
+#install keycloak oidc and saml adapters, generated feature-group to reference thekeycloak  JBoss modules modules.
 SCRIPT_DIR=$(dirname $0)
-wget -c https://github.com/keycloak/keycloak/releases/download/12.0.4/keycloak-oidc-wildfly-adapter-12.0.4.zip -O keycloak-oidc-wildfly-adapter.zip
-wget -c https://github.com/keycloak/keycloak/releases/download/12.0.4/keycloak-saml-wildfly-adapter-12.0.4.zip -O keycloak-saml-wildfly-adapter.zip
+wget -c https://github.com/keycloak/keycloak/releases/download/${KEYCLOAK_VERSION}/keycloak-oidc-wildfly-adapter-${KEYCLOAK_VERSION}.zip -O keycloak-oidc-wildfly-adapter.zip
+wget -c https://github.com/keycloak/keycloak/releases/download/${KEYCLOAK_VERSION}/keycloak-saml-wildfly-adapter-${KEYCLOAK_VERSION}.zip -O keycloak-saml-wildfly-adapter.zip
 tmp_dir="$SCRIPT_DIR/target/tmp"
 resources_dir="$SCRIPT_DIR/target/resources"
 modules_dir="$resources_dir/modules"

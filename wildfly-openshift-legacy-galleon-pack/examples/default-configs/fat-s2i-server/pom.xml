@@ -67,7 +67,6 @@
                             <record-state>true</record-state>
                             <offline>false</offline>
                             <plugin-options>
-                                <!-- required when running on JDK 11 -->
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
                             <provisioningFile>../provisioning.xml</provisioningFile>

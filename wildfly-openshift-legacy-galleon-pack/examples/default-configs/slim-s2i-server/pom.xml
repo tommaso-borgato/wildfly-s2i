@@ -56,7 +56,7 @@
                 <artifactId>galleon-maven-plugin</artifactId>
                 <version>4.2.8.Final</version>
                 <executions>
-                                        <execution>
+                    <execution>
                         <id>provision a provisioning.xml file</id>
                         <goals>
                             <goal>provision-file</goal>
@@ -67,7 +67,6 @@
                             <record-state>true</record-state>
                             <offline>false</offline>
                             <plugin-options>
-                                <!-- required when running on JDK 11 -->
                                 <jboss-maven-dist/>
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>

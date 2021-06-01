@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# Install launch scripts.
 SCRIPT_DIR=$(pwd -P)/$(dirname $0)
 tmp_dir="$SCRIPT_DIR/target/tmp"
 resources_dir="$SCRIPT_DIR/target/resources"
