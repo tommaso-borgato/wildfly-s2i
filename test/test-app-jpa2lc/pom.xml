@@ -29,6 +29,35 @@
 
     <build>
         <finalName>test-app-jpa2lc</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-jar-maven-plugin</artifactId>
+                <configuration>
+                    <!-- some tests check for the provisioned galleon layers -->
+                    <record-state>true</record-state>
+                    <feature-pack-location>org.wildfly:wildfly-cloud-legacy-galleon-pack:24.0.0.Beta1</feature-pack-location>
+                    <layers>
+                        <layer>jaxrs-server</layer>
+                        <layer>jpa-distributed</layer>
+                        <layer>h2-default-datasource</layer>
+                    </layers>
+                    <excluded-layers>
+                        <layer>jpa</layer>
+                    </excluded-layers>
+                    <plugin-options>
+                        <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
+                    </plugin-options>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
