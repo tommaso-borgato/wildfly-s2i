@@ -2,7 +2,7 @@ schema_version: 1
 
 name: &imgName "wildfly/wildfly-ubi8"
 description: "The WildFly s2i image"
-version: &imgVersion "dev-minimal"
+version: &imgVersion "dev"
 from: "registry.access.redhat.com/ubi8/ubi-minimal"
 labels:
     - name: io.k8s.description
