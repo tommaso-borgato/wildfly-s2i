@@ -65,4 +65,4 @@ run:
       cmd:
           - "sh"
           - "-c"
-          - "$JBOSS_HOME/bin/openshift-launch.sh"
+          - "${JBOSS_CONTAINER_WILDFLY_RUN_MODULE}/run"

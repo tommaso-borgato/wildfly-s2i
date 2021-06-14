@@ -12,24 +12,8 @@ function maven_s2i_deploy_artifacts_override() {
      exit 1
    fi
  fi
- # Copy logging.sh is doesn't exist.
- if [ ! -f "${JBOSS_HOME}/bin/launch/logging.sh" ]; then
-   mkdir -p "${JBOSS_HOME}/bin/launch/"
-   cp "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh" "${JBOSS_HOME}/bin/launch/"
- fi
+rm -rf "$provisioned_server"/standalone/tmp
+rm -rf "$provisioned_server"/standalone/log
  log_info "Copying server from $provisioned_server to $JBOSS_HOME..."
  cp -r -L "$provisioned_server"/.* $JBOSS_HOME
- if [ -f "${JBOSS_HOME}/bin/openshift-launch.sh" ]; then
-    echo "Using legacy openshift launcher."
-    ln -s "${JBOSS_HOME}"/bin/openshift-launch.sh "${JBOSS_HOME}"/bin/cloud-launch.sh
- elif [ -f "${JBOSS_HOME}/bin/standalone-cloud.sh" ]; then
-    echo "Using cloud launcher."
-    ln -s "${JBOSS_HOME}"/bin/standalone-cloud.sh "$JBOSS_HOME"/bin/server-launch.sh
-    cp "${JBOSS_CONTAINER_WILDFLY_S2I_MODULE}"/cloud-launch.sh "${JBOSS_HOME}"/bin
- elif  [ -f "${JBOSS_HOME}/bin/standalone.sh" ]; then
-    echo "Using standalone launcher."
-    ln -s "${JBOSS_HOME}"/bin/standalone.sh "$JBOSS_HOME"/bin/server-launch.sh
-    cp "${JBOSS_CONTAINER_WILDFLY_S2I_MODULE}"/cloud-launch.sh "${JBOSS_HOME}"/bin
- fi
-  chmod +x "$JBOSS_HOME/bin/cloud-launch.sh"
 }

@@ -14,3 +14,7 @@ labels:
   value: *imgLocation
 execute:
 - script: configure.sh
+
+modules:
+  install:
+  - name: jboss.container.wildfly.run
