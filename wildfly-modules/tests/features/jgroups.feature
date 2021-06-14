@@ -1,10 +1,10 @@
 #TODO
-@wildfly/wildfly-centos7
+@wildfly/wildfly-ubi8
 Feature: Openshift WildFly jgroups
 
   # CLOUD-336
   Scenario: Check if jgroups is secure
-    When container is started with env
+    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
        | variable                 | value    |
        | JGROUPS_CLUSTER_PASSWORD | asdfasdf |
        | JGROUPS_PING_PROTOCOL               | openshift.DNS_PING                      |

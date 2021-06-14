@@ -1,4 +1,4 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-ubi8
 Feature: Check HTTPS configuration
 
   Scenario: Configure HTTPS, galleon s2i

@@ -1,4 +1,4 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-ubi8
 Feature: WildFly Openshift resource adapters
 
   Scenario: Test resource adapter extension, galleon s2i

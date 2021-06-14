@@ -1,4 +1,4 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-ubi8
 
 Feature: Wildfly configured with env vars tests
   Scenario:  Test addition of datasource

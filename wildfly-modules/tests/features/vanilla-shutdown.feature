@@ -1,4 +1,4 @@
-@wip
+
 Feature: Openshift WildFly shutdown tests
 
   Scenario: Check if image shuts down with TERM signal

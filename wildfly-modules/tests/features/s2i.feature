@@ -1,4 +1,4 @@
-@wildfly/wildfly-centos7
+@wildfly/wildfly-ubi8
 Feature: Wildfly s2i tests
 
   Scenario: Test no incremental build, download of artifacts
