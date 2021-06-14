@@ -57,6 +57,9 @@
                     <plugin-options>
                         <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
                     </plugin-options>
+                                        <extra-server-content-dirs>
+                                <extra-content>extra-content</extra-content>
+                            </extra-server-content-dirs>
                 </configuration>
                 <executions>
                     <execution>

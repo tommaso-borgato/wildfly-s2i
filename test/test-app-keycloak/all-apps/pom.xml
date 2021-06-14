@@ -62,6 +62,9 @@
                             </script-files>
                         </cli-session>
                     </cli-sessions>
+                    <extra-server-content-dirs>
+                                <extra-content>extra-content</extra-content>
+                            </extra-server-content-dirs>
                 </configuration>
                 <executions>
                     <execution>
