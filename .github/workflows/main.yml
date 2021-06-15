@@ -1,5 +1,8 @@
 name: Wildfly s2i Image CI
 on:
+  push:
+    branches:
+      - 'wildfly-s2i-v2'
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
@@ -21,12 +24,11 @@ jobs:
       - uses: n1hility/cancel-previous-runs@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Verify latest centos image is present
+      - name: Verify latest ubi8-minimal and openjdk-11-runtime images are present
         run: |
-          docker image ls | grep centos || true
-          docker pull centos:7
-          docker pull centos/s2i-base-centos7
-          docker image ls | grep centos
+          docker pull registry.access.redhat.com/ubi8/openjdk-11-runtime
+          docker pull registry.access.redhat.com/ubi8/ubi-minimal
+          docker image ls | grep ubi8
       - name: Setup required system packages
         run: |
           sudo apt-get update
@@ -71,7 +73,7 @@ jobs:
         run: |
           export IMAGE_VERSION=dev
           export NAMESPACE=wildfly
-          export PLATFORM=centos7
+          export PLATFORM=ubi8
           export IMAGE_NAME=${NAMESPACE}/wildfly-${PLATFORM}
           export RUNTIME_IMAGE_NAME=${NAMESPACE}/wildfly-runtime-${PLATFORM}
           . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
