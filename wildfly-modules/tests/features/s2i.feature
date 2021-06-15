@@ -41,8 +41,6 @@ Feature: Wildfly s2i tests
 
   Scenario: Test jaxrs-server -jpa +jpa-distributed
     Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-jpa2lc with env and True using wildfly-s2i-v2
-      | variable                             | value                                                    |
-      | GALLEON_PROVISION_LAYERS             | jaxrs-server,-jpa,jpa-distributed,h2-default-datasource  |
     Then container log should contain WFLYSRV0025
     Then check that page is served
       | property              | value                                   |

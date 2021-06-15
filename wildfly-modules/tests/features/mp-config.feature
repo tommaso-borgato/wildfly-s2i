@@ -6,6 +6,5 @@ Feature: Openshift mp-config tests
        | variable                                | value           |
        | MICROPROFILE_CONFIG_DIR                 | /home/jboss     |
        | MICROPROFILE_CONFIG_DIR_ORDINAL         | 88              |
-       | GALLEON_PROVISION_LAYERS                | cloud-profile   |
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value /home/jboss on XPath //*[local-name()='config-source' and @name='config-map']/*[local-name()='dir']/@path
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value 88 on XPath //*[local-name()='config-source' and @name='config-map']/@ordinal
