@@ -10,7 +10,7 @@ labels:
     - name: io.k8s.display-name
       value: "WildFly"
     - name: io.openshift.expose-services
-      value: "8080:http,8778:jolokia"
+      value: "8080:http"
     - name: io.openshift.tags
       value: "builder,wildfly,wildfly"
     - name: maintainer
@@ -44,16 +44,7 @@ modules:
           - name: dynamic-resources
           - name: jboss.container.maven.default
           - name: jboss.container.maven.s2i
-          - name: jboss.container.util.logging.bash
           - name: jboss.container.wildfly.s2i-wildfly.bash
-          - name: jboss.container.jolokia
-            version: '7'
-
-artifacts:
-        - name: jolokia-jvm
-          target: jolokia-jvm-1.6.2-agent.jar
-          url: https://repo1.maven.org/maven2/org/jolokia/jolokia-jvm/1.6.2/jolokia-jvm-1.6.2-agent.jar
-          md5: d27b2fc0d1ed8ed50a7e661db839c83a
 
 packages:
   manager: microdnf
