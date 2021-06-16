@@ -4,7 +4,8 @@ source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
 function maven_s2i_deploy_artifacts_override() {
  mkdir -p $JBOSS_HOME
  local artifact_dirs=${1:-${MAVEN_S2I_ARTIFACT_DIRS}}
- provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/bootable-jar-build-artifacts/wildfly";
+ local server_dir=${S2I_SERVER_DIR:-bootable-jar-build-artifacts/wildfly}
+ provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
  if [ ! -d "$provisioned_server" ]; then
    provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/wildfly";
    if [ ! -d "$provisioned_server" ]; then
