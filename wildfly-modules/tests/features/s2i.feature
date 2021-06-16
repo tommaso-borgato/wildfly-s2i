@@ -1,10 +1,9 @@
 @wildfly/wildfly-ubi8
 Feature: Wildfly s2i tests
 
-  Scenario: Test no incremental build, download of artifacts
-    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and False using wildfly-s2i-v2
+  Scenario: Build the image with a server
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using wildfly-s2i-v2
     Then container log should contain WFLYSRV0025
-    And s2i build log should contain Downloaded
 
   Scenario: Test incremental build, no download of artifacts
     Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using wildfly-s2i-v2
