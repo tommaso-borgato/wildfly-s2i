@@ -1,6 +1,13 @@
 @wildfly/wildfly-ubi8
 Feature: Wildfly basic tests
 
+  Scenario: Check that the legacy default config provisioned using galleon plugin works fine
+   Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-default-config with env and True using wildfly-s2i-v2
+   | variable                 | value           |
+   | S2I_SERVER_DIR | server |
+   Then container log should contain WFLYSRV0025
+   Then container log should contain Running wildfly/wildfly-ubi8 image, version
+
   Scenario: Check if image version and release is printed on boot
    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using wildfly-s2i-v2
    Then container log should contain Running wildfly/wildfly-ubi8 image, version
