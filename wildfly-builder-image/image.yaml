@@ -15,6 +15,10 @@ labels:
       value: "builder,wildfly,wildfly"
     - name: maintainer
       value: "Jean-François Denise <jdenise@redhat.com>"
+    - name: "io.openshift.s2i.scripts-url"
+      value: "image:///usr/local/s2i"
+    - name: "io.s2i.scripts-url"
+      value: "image:///usr/local/s2i"
 envs:
     - name: SCRIPT_DEBUG
       description: If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed.

@@ -124,7 +124,7 @@ else
 
     SERVER_ARGS="${JAVA_PROXY_OPTIONS} -Djboss.node.name=${JBOSS_NODE_NAME} ${PORT_OFFSET_PROPERTY} -b ${PUBLIC_IP_ADDRESS} -bmanagement ${MANAGEMENT_IP_ADDRESS} -Dwildfly.statistics-enabled=${ENABLE_STATISTICS} ${SERVER_ARGS}"
 
-    log_info Starting server with arguments: ${SERVER_ARGS}
+    log_info "Starting server with arguments: ${SERVER_ARGS}"
 
     export JAVA_OPTS
 
