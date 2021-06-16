@@ -1,9 +1,13 @@
 @wildfly/wildfly-ubi8
 Feature: Openshift WildFly jgroups
 
+  Scenario: Build server image
+    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    Then container log should contain WFLYSRV0025:
+
   # CLOUD-336
   Scenario: Check if jgroups is secure
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                 | value    |
        | JGROUPS_CLUSTER_PASSWORD | asdfasdf |
        | JGROUPS_PING_PROTOCOL               | openshift.DNS_PING                      |
@@ -12,7 +16,7 @@ Feature: Openshift WildFly jgroups
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should have 2 elements on XPath //*[local-name()='auth-protocol'][@type='AUTH']
 
   Scenario: Check jgroups encryption does not create invalid configuration with missing name
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_SECRET                       | jdg_jgroups_encrypt_secret             |
        | JGROUPS_ENCRYPT_KEYSTORE_DIR                 | /etc/jgroups-encrypt-secret-volume     |
@@ -24,7 +28,7 @@ Feature: Openshift WildFly jgroups
      And available container log should contain WARN Detected partial JGroups encryption configuration, the communication within the cluster WILL NOT be encrypted.
 
   Scenario: Check jgroups encryption does not create invalid configuration with missing password
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_SECRET                       | jdg_jgroups_encrypt_secret             |
        | JGROUPS_ENCRYPT_KEYSTORE_DIR                 | /etc/jgroups-encrypt-secret-volume     |
@@ -36,7 +40,7 @@ Feature: Openshift WildFly jgroups
      And available container log should contain WARN Detected partial JGroups encryption configuration, the communication within the cluster WILL NOT be encrypted.
 
 Scenario: jgroups-encrypt
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_SECRET                       | wildfly_jgroups_encrypt_secret             |
        | JGROUPS_ENCRYPT_KEYSTORE_DIR                 | /etc/jgroups-encrypt-secret-volume     |
@@ -56,7 +60,7 @@ Scenario: jgroups-encrypt
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value pbcast.NAKACK2 on XPath //*[local-name()="stack"][@name="tcp"]/*[local-name()="encrypt-protocol"][@type="SYM_ENCRYPT"]/following-sibling::*[1]/@type
 
   Scenario: Check jgroups encryption with missing keystore dir creates the location relative to the server dir
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_PROTOCOL                     | SYM_ENCRYPT                            |
        | JGROUPS_ENCRYPT_SECRET                       | jdg_jgroups_encrypt_secret             |
@@ -66,7 +70,7 @@ Scenario: jgroups-encrypt
     Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value jboss.server.config.dir on XPath //*[local-name()="key-store"][@name="keystore.jks"]/*[local-name()="file"]/@relative-to
 
 Scenario: Verify configuration and protocol positions jgroups-encrypt, DNS ping protocol and AUTH
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_SECRET                       | wildfly_jgroups_encrypt_secret             |
        | JGROUPS_ENCRYPT_KEYSTORE_DIR                 | /etc/jgroups-encrypt-secret-volume     |
@@ -93,7 +97,7 @@ Scenario: Verify configuration and protocol positions jgroups-encrypt, DNS ping 
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value pbcast.GMS on XPath //*[local-name()="stack"][@name="tcp"]/*[local-name()="auth-protocol"][@type="AUTH"]/following-sibling::*[1]/@type
 
 Scenario: Verify configuration jgroups deprecated ASYM_ENCRYPT, kubernetes.KUBE_PING ping protocol and AUTH
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                 |
        | JGROUPS_ENCRYPT_PROTOCOL                     | ASYM_ENCRYPT          |
        | JGROUPS_CLUSTER_PASSWORD                     | P@assw0rd             |
@@ -125,7 +129,7 @@ Scenario: Verify configuration jgroups deprecated ASYM_ENCRYPT, kubernetes.KUBE_
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value pbcast.GMS on XPath //*[local-name()='stack'][@name='tcp']/*[local-name()='auth-protocol'][@type='AUTH']/following-sibling::*[1]/@type
 
 Scenario: Verify configuration jgroups deprecated ASYM_ENCRYPT, dns.DNS_PING ping protocol and AUTH
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                                  |
        | JGROUPS_ENCRYPT_PROTOCOL                     | ASYM_ENCRYPT                           |
        | JGROUPS_CLUSTER_PASSWORD                     | P@assw0rd                              |
@@ -159,7 +163,7 @@ Scenario: Verify configuration jgroups deprecated ASYM_ENCRYPT, dns.DNS_PING pin
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value pbcast.GMS on XPath //*[local-name()='stack'][@name='tcp']/*[local-name()='auth-protocol'][@type='AUTH']/following-sibling::*[1]/@type
 
 Scenario: Verify configuration jgroups non-deprecated ASYM_ENCRYPT, dns.DNS_PING ping and AUTH
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                           |
        | JGROUPS_ENCRYPT_PROTOCOL                     | ASYM_ENCRYPT                    |
        | JGROUPS_ENCRYPT_SECRET                       | wildfly_jgroups_encrypt_secret      |
@@ -199,7 +203,7 @@ Scenario: Verify configuration jgroups non-deprecated ASYM_ENCRYPT, dns.DNS_PING
      And XML file /opt/wildfly/standalone/configuration/standalone.xml should have 0 elements on XPath //*[local-name()='tls']/*[local-name()='key-stores']/*[local-name()='key-store'][@name='keystore.jks']/*[local-name()='file']/@relative-to
 
   Scenario: Verify configuration jgroups non-deprecated ASYM_ENCRYPT, kubernetes.KUBE_PING ping protocol ping and AUTH
-    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using wildfly-s2i-v2
+    When container integ- is started with env
        | variable                                     | value                           |
        | JGROUPS_ENCRYPT_PROTOCOL                     | ASYM_ENCRYPT                    |
        | JGROUPS_ENCRYPT_SECRET                       | wildfly_jgroups_encrypt_secret      |
