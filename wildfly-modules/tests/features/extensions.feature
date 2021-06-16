@@ -1,4 +1,3 @@
-@wip
 @wildfly/wildfly-ubi8
 Feature: Wildfly extensions tests
 
