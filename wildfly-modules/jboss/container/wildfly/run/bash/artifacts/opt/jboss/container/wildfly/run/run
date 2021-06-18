@@ -96,6 +96,21 @@ else
     # Make sure that we use /dev/urandom (CLOUD-422)
     JAVA_OPTS="${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom"
 
+    JAVA_OPTS="${JAVA_OPTS} -Djava.net.preferIPv4Stack=true"
+
+    # JAVA_OPTIONS is standard for Bootable JAR, nice to align. Used in JKUBE.
+    JAVA_OPTS="${JAVA_OPTS} ${JAVA_OPTIONS}"
+
+    if [ -z "$JBOSS_MODULES_SYSTEM_PKGS" ]; then
+      JBOSS_MODULES_SYSTEM_PKGS="jdk.nashorn.api,com.sun.crypto.provider"
+    fi
+
+    if [ -n "$JBOSS_MODULES_SYSTEM_PKGS_APPEND" ]; then
+      JBOSS_MODULES_SYSTEM_PKGS="$JBOSS_MODULES_SYSTEM_PKGS,$JBOSS_MODULES_SYSTEM_PKGS_APPEND"
+    fi
+
+     JAVA_OPTS="${JAVA_OPTS} ${JBOSS_MODULES_SYSTEM_PKGS}"
+
     # DO WE KEEP?
     # White list packages for use in ObjectMessages: CLOUD-703
     if [ -n "$MQ_SERIALIZABLE_PACKAGES" ]; then
