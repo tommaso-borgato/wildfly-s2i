@@ -109,7 +109,7 @@ else
       JBOSS_MODULES_SYSTEM_PKGS="$JBOSS_MODULES_SYSTEM_PKGS,$JBOSS_MODULES_SYSTEM_PKGS_APPEND"
     fi
 
-     JAVA_OPTS="${JAVA_OPTS} ${JBOSS_MODULES_SYSTEM_PKGS}"
+     JAVA_OPTS="${JAVA_OPTS} -Djboss.modules.system.pkgs=${JBOSS_MODULES_SYSTEM_PKGS}"
 
     # DO WE KEEP?
     # White list packages for use in ObjectMessages: CLOUD-703
