@@ -21,8 +21,13 @@ function maven_s2i_deploy_artifacts_override() {
    provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
  fi
  if [ ! -d "$provisioned_server" ]; then
-     log_error "No server provisioned found. Exiting."
-     exit 1
+    # A TMP workaround for bootable JAR usage.
+    local server_dir="${S2I_SERVER_DIR:-bootable-jar-build-artifacts/wildfly}"
+    provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
+    if [ ! -d "$provisioned_server" ]; then
+      log_error "No server provisioned found. Exiting."
+      exit 1
+    fi
  fi
  rm -rf "$provisioned_server"/standalone/tmp
  rm -rf "$provisioned_server"/standalone/log
