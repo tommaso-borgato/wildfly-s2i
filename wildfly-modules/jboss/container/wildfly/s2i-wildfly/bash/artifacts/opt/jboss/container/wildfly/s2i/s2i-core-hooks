@@ -8,18 +8,9 @@ function maven_s2i_deploy_artifacts_override() {
  ls $S2I_SOURCE_DIR
  echo ARTIFACT DIRS ${artifact_dirs}
  ls -l $S2I_SOURCE_DIR/$artifact_dirs
- if [ -f "${S2I_SOURCE_DIR}/$artifact_dirs/Dockerfile" ]; then
-   # This is a S2I binary build coming from jkube maven-plugin
-   log_info "S2I binary build from jkube maven-plugin detected"
-   provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/opt/server";
-   if [ ! -d "$provisioned_server" ]; then
-     log_error "No server provisioned found in jkube input. Exiting."
-     exit 1
-   fi
- else 
-   local server_dir=${S2I_SERVER_DIR:-server}
-   provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
- fi
+ local server_dir=${S2I_SERVER_DIR:-server}
+ provisioned_server="$S2I_SOURCE_DIR/$artifact_dirs/${server_dir}";
+
  if [ ! -d "$provisioned_server" ]; then
     # A TMP workaround for bootable JAR usage.
     local server_dir="${S2I_SERVER_DIR:-bootable-jar-build-artifacts/wildfly}"
