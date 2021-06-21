@@ -18,8 +18,8 @@ Feature: Wildfly s2i tests
   Scenario: Test custom settings with galleon
     Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-settings with env and true using wildfly-s2i-v2
     | variable                     | value                                                 |
+    Then s2i build log should contain /tmp/src/configuration/settings.xml
     Then container log should contain WFLYSRV0025
-    Then file /home/jboss/.m2/settings.xml should contain foo-repository
 
   Scenario: Test custom settings by env with galleon
     Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and true using wildfly-s2i-v2

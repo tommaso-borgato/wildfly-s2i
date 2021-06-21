@@ -7,7 +7,7 @@ Feature: Wildfly basic tests
    | S2I_SERVER_DIR | server |
    Then container log should contain Running wildfly/wildfly-ubi8 image, version
    Then container log should contain WFLYSRV0025
-  
+
   Scenario: Check if image version and release is printed on boot
    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using wildfly-s2i-v2
    Then container log should contain Running wildfly/wildfly-ubi8 image, version
