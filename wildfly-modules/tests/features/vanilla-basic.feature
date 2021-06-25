@@ -1,4 +1,4 @@
-@wildfly/wildfly-ubi8
+@wildfly/wildfly-s2i-jdk11
 Feature: Vanilla Wildfly basic tests
 
  Scenario: Check if image version and release is printed on boot

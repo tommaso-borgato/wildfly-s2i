@@ -1,4 +1,4 @@
-@wildfly/wildfly-ubi8
+@wildfly/wildfly-s2i-jdk11
 Feature: Openshift WildFly jgroups
 
   Scenario: Build server image

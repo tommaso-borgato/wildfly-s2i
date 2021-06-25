@@ -1,4 +1,4 @@
-@wildfly/wildfly-ubi8
+@wildfly/wildfly-s2i-jdk11
 Feature: Wildfly basic tests
 
   Scenario: Check that the legacy default config provisioned using galleon plugin works fine

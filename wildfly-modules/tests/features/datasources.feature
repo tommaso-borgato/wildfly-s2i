@@ -1,4 +1,4 @@
-@wildfly/wildfly-ubi8
+@wildfly/wildfly-s2i-jdk11
 Feature: Wildfly configured for datasources
 
   Scenario: Build image with server

@@ -1,6 +1,6 @@
 schema_version: 1
 
-name: &imgName "wildfly/wildfly-runtime-ubi8"
+name: &imgName "wildfly/wildfly-runtime-jre11"
 description: "The WildFly runtime image"
 version: &imgVersion "dev"
 from: "registry.access.redhat.com/ubi8/openjdk-11-runtime"

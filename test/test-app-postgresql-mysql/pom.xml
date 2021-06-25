@@ -40,7 +40,7 @@
                         <configuration>
                             <feature-packs>
                                 <feature-pack>
-                                    <location>org.wildfly:wildfly-cloud-legacy-galleon-pack:24.0.0.Beta1</location>
+                                    <location>org.wildfly:wildfly-cloud-legacy-galleon-pack:24.0.0.Final</location>
                                 </feature-pack>
                                 <feature-pack>
                                     <location>org.wildfly:wildfly-datasources-galleon-pack:2.0.1.Final</location>

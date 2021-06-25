@@ -140,7 +140,7 @@ check_result $?
 
 echo "### Test chained build"
 cid_file=$(mktemp -u --suffix=.cid)
-prepare test-app "-e GALLEON_PROVISION_LAYERS=jaxrs"
+prepare test-app
 
 build_chained_build
 check_result $?
