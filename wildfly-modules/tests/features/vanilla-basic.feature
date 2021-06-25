@@ -3,7 +3,7 @@ Feature: Vanilla Wildfly basic tests
 
  Scenario: Check if image version and release is printed on boot
    Given s2i build git://github.com/jfdenise/wildfly-s2i from test/vanilla-wildfly/test-app with env and True using wildfly-s2i-v2
-   Then container log should contain Running wildfly/wildfly-ubi8 image, version
+   Then container log should contain Running wildfly/wildfly-s2i-jdk11 image, version
 
 Scenario:  Test basic deployment vanilla WildFly
     When container integ- is started with env
