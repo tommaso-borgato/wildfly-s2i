@@ -138,6 +138,6 @@ jobs:
           helm install microprofile-config-app \
           wildfly/wildfly \
           -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/microprofile-config/microprofile-config-app.yaml \
-          --set build.s2i.builderImage=quay.io/${{ secrets.QUAY_REPO }}/wildfly-s2i-jdk11 \
+          --set build.bootableJar.builderImage=quay.io/${{ secrets.QUAY_REPO }}/wildfly-s2i-jdk11 \
           --set build.s2i.runtimeImage=quay.io/${{ secrets.QUAY_REPO }}/wildfly-runtime-jre11 \
           --set build.s2i.version=latest
