@@ -73,8 +73,11 @@ jobs:
         run: |
           export IMAGE_VERSION=dev
           export NAMESPACE=wildfly
-          export PLATFORM=ubi8
-          export IMAGE_NAME=${NAMESPACE}/wildfly-${PLATFORM}
-          export RUNTIME_IMAGE_NAME=${NAMESPACE}/wildfly-runtime-${PLATFORM}
+          export IMAGE_NAME=${NAMESPACE}/wildfly-s2i-jdk11
+          export RUNTIME_IMAGE_NAME=${NAMESPACE}/wildfly-runtime-jre11
           . ~/cekit${{ env.CEKIT_VERSION }}/bin/activate
           ./test/run
+      - name: List containers
+        if: failure()
+        run: |
+            docker container ls
