@@ -49,6 +49,10 @@
             </snapshots>
         </repository>
     </repositories>
+    <properties>
+        <version.wildfly>24.0.0.Final</version.wildfly>
+        <version.wildfly.datasources.galleon.pack>2.0.2.Final</version.wildfly.datasources.galleon.pack>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -57,19 +61,34 @@
                 <version>4.2.8.Final</version>
                 <executions>
                     <execution>
-                        <id>provision a provisioning.xml file</id>
+                        <id>provision default config</id>
                         <goals>
-                            <goal>provision-file</goal>
+                            <goal>provision</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-cloud-legacy-galleon-pack:${version.wildfly}</location>
+                                    <inherit-configs>false</inherit-configs>
+                                    <included-configs>
+                                        <config>
+                                            <model>standalone</model>
+                                            <name>standalone.xml</name>
+                                        </config>
+                                    </included-configs>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:${version.wildfly.datasources.galleon.pack}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <install-dir>${project.build.directory}/server</install-dir>
                             <record-state>true</record-state>
                             <offline>false</offline>
                             <plugin-options>
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
-                            <provisioningFile>provisioning.xml</provisioningFile>
+                            
                         </configuration>
                     </execution>
                 </executions>

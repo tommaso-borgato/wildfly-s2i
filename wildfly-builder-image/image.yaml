@@ -6,7 +6,7 @@ version: &imgVersion "dev"
 from: "registry.access.redhat.com/ubi8/ubi-minimal"
 labels:
     - name: io.k8s.description
-      value: "Platform for building and running JEE applications on WildFly"
+      value: "Tooling image to build Enterprise Java applications with WildFly"
     - name: io.k8s.display-name
       value: "WildFly"
     - name: io.openshift.expose-services
@@ -14,7 +14,7 @@ labels:
     - name: io.openshift.tags
       value: "builder,wildfly"
     - name: maintainer
-      value: "Jean-François Denise <jdenise@redhat.com>"
+      value: "Wildfly Dev <wildfly-dev@lists.jboss.org>"
     - name: "io.openshift.s2i.scripts-url"
       value: "image:///usr/local/s2i"
     - name: "io.s2i.scripts-url"

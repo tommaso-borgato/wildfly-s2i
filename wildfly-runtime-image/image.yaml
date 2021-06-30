@@ -10,7 +10,7 @@ labels:
     - name: io.openshift.tags
       value: "wildfly"
     - name: maintainer
-      value: "Jean-François Denise <jdenise@redhat.com>"
+      value: "Wildfly Dev <wildfly-dev@lists.jboss.org>"
     - name: "org.jboss.deployments-dir"
       value: "/opt/server/standalone/deployments"
 envs:
