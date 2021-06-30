@@ -186,7 +186,7 @@ Scenario: Check if image shuts down with TERM signal
        | variable                  | value           |
        | CLI_GRACEFUL_SHUTDOWN     | true            |
     Then container log should contain WFLYSRV0025
-    Then run /opt/wildfly/bin/jboss-cli.sh -c "shutdown --timeout=60" in container once
+    Then run /opt/server/bin/jboss-cli.sh -c "shutdown --timeout=60" in container once
     Then container log should not contain received TERM signal
     Then exactly 1 times container log should contain WFLYSRV0050
 

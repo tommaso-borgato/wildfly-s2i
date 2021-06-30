@@ -12,13 +12,15 @@ labels:
     - name: io.openshift.expose-services
       value: "8080:http"
     - name: io.openshift.tags
-      value: "builder,wildfly,wildfly"
+      value: "builder,wildfly"
     - name: maintainer
       value: "Jean-François Denise <jdenise@redhat.com>"
     - name: "io.openshift.s2i.scripts-url"
       value: "image:///usr/local/s2i"
     - name: "io.s2i.scripts-url"
       value: "image:///usr/local/s2i"
+    - name: "org.jboss.deployments-dir"
+      value: "/opt/server/standalone/deployments"
 envs:
     - name: SCRIPT_DEBUG
       description: If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed.
@@ -28,7 +30,7 @@ envs:
     - name: IMAGE_VERSION
       value: *imgVersion
     - name: JBOSS_HOME
-      value: /opt/wildfly
+      value: /opt/server
 ports:
     - value: 8080
 modules:

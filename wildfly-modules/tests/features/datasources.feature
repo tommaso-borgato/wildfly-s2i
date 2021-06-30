@@ -19,9 +19,9 @@ Feature: Wildfly configured for datasources
       | test_URL                     | jdbc:postgresql://localhost:5432/postgresdb   |
       | test_USERNAME                | demo                                          |
     Then container log should contain WFLYSRV0025
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value test_postgresql-test on XPath //*[local-name()='datasource']/@pool-name
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value MySQLDS on XPath //*[local-name()='datasource']/@pool-name
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value PostgreSQLDS on XPath //*[local-name()='datasource']/@pool-name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value test_postgresql-test on XPath //*[local-name()='datasource']/@pool-name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value MySQLDS on XPath //*[local-name()='datasource']/@pool-name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value PostgreSQLDS on XPath //*[local-name()='datasource']/@pool-name
     And check that page is served
       | property | value |
       | path     | /     |
@@ -30,7 +30,7 @@ Feature: Wildfly configured for datasources
   Scenario: Test dirver added during provisioning.
      When container integ- is started with env
       | variable                     | value                                                       |
-      | ENV_FILES                    | /opt/wildfly/standalone/configuration/datasources.env |
+      | ENV_FILES                    | /opt/server/standalone/configuration/datasources.env |
       | POSTGRESQL_ENABLED | false |
       | MYSQL_ENABLED            | false |
     Then container log should contain WFLYSRV0025
@@ -38,15 +38,15 @@ Feature: Wildfly configured for datasources
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='extension'][@module="org.wildfly.extension.microprofile.opentracing-smallrye"]
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:wildfly:microprofile-opentracing-smallrye:')]
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value test-TEST on XPath //*[local-name()='datasource']/@pool-name
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value postgresql on XPath //*[local-name()='driver']/@name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='extension'][@module="org.wildfly.extension.microprofile.opentracing-smallrye"]
+    Then XML file /opt/server/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:wildfly:microprofile-opentracing-smallrye:')]
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value test-TEST on XPath //*[local-name()='datasource']/@pool-name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value postgresql on XPath //*[local-name()='driver']/@name
 
   Scenario: Test external driver created during s2i.
      When container integ- is started with env
       | variable                     | value                                                       |
-      | ENV_FILES                    | /opt/wildfly/standalone/configuration/datasources.env |
+      | ENV_FILES                    | /opt/server/standalone/configuration/datasources.env |
       | POSTGRESQL_ENABLED | false |
       | MYSQL_ENABLED            | false |
       | DISABLE_BOOT_SCRIPT_INVOKER  | true |
@@ -56,7 +56,7 @@ Feature: Wildfly configured for datasources
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='extension'][@module="org.wildfly.extension.microprofile.opentracing-smallrye"]
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:wildfly:microprofile-opentracing-smallrye:')]
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value test-TEST on XPath //*[local-name()='datasource']/@pool-name
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value postgresql on XPath //*[local-name()='driver']/@name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='extension'][@module="org.wildfly.extension.microprofile.opentracing-smallrye"]
+    Then XML file /opt/server/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:wildfly:microprofile-opentracing-smallrye:')]
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value test-TEST on XPath //*[local-name()='datasource']/@pool-name
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value postgresql on XPath //*[local-name()='driver']/@name

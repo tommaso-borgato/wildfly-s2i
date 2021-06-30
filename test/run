@@ -117,7 +117,7 @@ rt_docker_dir=$(mktemp -d)
 rt_docker_file=$rt_docker_dir/Dockerfile
   cat <<EOF > $rt_docker_file
 FROM ${RUNTIME_IMAGE_NAME}:${IMAGE_VERSION}
-COPY --chown=jboss:root --from=${IMAGE_NAME}-testapp:latest /opt/wildfly \$JBOSS_HOME
+COPY --chown=jboss:root --from=${IMAGE_NAME}-testapp:latest /opt/server \$JBOSS_HOME
 EOF
   docker build -t ${RUNTIME_IMAGE_NAME}-testapp $rt_docker_dir
   ret=$?

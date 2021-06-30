@@ -15,7 +15,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
 
    Scenario: Test preconfigure.sh fallback CLI
     When container integ- is started with env
@@ -29,7 +29,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
 
    Scenario: Test preconfigure.sh calls CLI
     When container integ- is started with env
@@ -41,7 +41,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
 
    Scenario: Test preconfigure.sh calls CLI
     When container integ- is started with env
@@ -55,7 +55,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
 
   Scenario: Test preconfigure.sh fails in bash
     When container integ- is started with env
@@ -116,7 +116,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
 
   Scenario: Test postconfigure.sh
     When container integ- is started with env
@@ -130,7 +130,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
 
   Scenario: Test postconfigure.sh calls CLI
     When container integ- is started with env
@@ -143,8 +143,8 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value bar2 on XPath //*[local-name()='property' and @name="foo2"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value bar on XPath //*[local-name()='property' and @name="foo"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value bar2 on XPath //*[local-name()='property' and @name="foo2"]/@value
 
   Scenario: Test postconfigure.sh calls CLI
     When container integ- is started with env
@@ -158,7 +158,7 @@ Feature: Wildfly extensions tests
       | property | value |
       | path     | /     |
       | port     | 8080  |
-    Then XML file /opt/wildfly/standalone/configuration/standalone.xml should contain value bar2 on XPath //*[local-name()='property' and @name="foo2"]/@value
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value bar2 on XPath //*[local-name()='property' and @name="foo2"]/@value
 
   Scenario: Test postconfigure.sh fails in bash
     When container integ- is started with env

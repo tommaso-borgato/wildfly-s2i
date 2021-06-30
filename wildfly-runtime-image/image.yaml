@@ -8,11 +8,11 @@ labels:
     - name: io.openshift.expose-services
       value: "8080:http"
     - name: io.openshift.tags
-      value: "wildfly,wildfly"
+      value: "wildfly"
     - name: maintainer
       value: "Jean-François Denise <jdenise@redhat.com>"
     - name: "org.jboss.deployments-dir"
-      value: "/opt/wildfly/standalone/deployments"
+      value: "/opt/server/standalone/deployments"
 envs:
     - name: SCRIPT_DEBUG
       description: If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed.
@@ -22,7 +22,7 @@ envs:
     - name: IMAGE_VERSION
       value: *imgVersion
     - name: JBOSS_HOME
-      value: /opt/wildfly
+      value: /opt/server
       # Workaround for bug in runtime image
     - name: JAVA_HOME
       value: /usr/lib/jvm/jre-11
