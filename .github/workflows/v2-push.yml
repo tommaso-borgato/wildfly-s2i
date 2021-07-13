@@ -1,5 +1,7 @@
 name: Wildfly s2i Image Build and Deployment when pushing in the v2 branch.
 on:
+  repository_dispatch:
+    types: [push-in-wf-cekit-modules-v2]
   push:
     branches:
       - "v2"
@@ -14,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+            ref: v2
       - name: Check quay.io configuration
         if: env.V2_QUAY_USERNAME == '' || env.V2_QUAY_REPO == ''
         run: |
