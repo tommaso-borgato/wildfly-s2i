@@ -39,6 +39,47 @@
     <build>
         <finalName>all-apps</finalName>
         <plugins>
+                        <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download-files</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.build.directory}"/>
+                                <mkdir dir="${project.build.directory}/deployments/standalone/deployments"/>
+                                <copy file="${project.basedir}/../app-profile-jee/target/app-profile-jee.war" todir="${project.build.directory}/deployments/standalone/deployments"/>
+                                <copy file="${project.basedir}/../app-profile-jee-saml/target/app-profile-jee-saml.war" todir="${project.build.directory}/deployments/standalone/deployments"/>
+                                <!-- download file -->
+                                <get src="https://github.com/keycloak/keycloak/releases/download/15.0.2/keycloak-oidc-wildfly-adapter-15.0.2.zip"
+                                     dest="${project.build.directory}/keycloak-oidc.zip"
+                                     verbose="true"
+                                     usetimestamp="true"/>
+                                <exec executable="unzip" failonerror="true">
+                                    <arg value="${project.build.directory}/keycloak-oidc.zip"/>
+                                    <arg value="-d"/>
+                                    <arg value="${project.build.directory}/keycloak-oidc"/>
+                                </exec>
+                                <get src="https://github.com/keycloak/keycloak/releases/download/15.0.2/keycloak-saml-wildfly-adapter-15.0.2.zip"
+                                     dest="${project.build.directory}/keycloak-saml.zip"
+                                     verbose="true"
+                                     usetimestamp="true"/>
+                                <exec executable="unzip" failonerror="true">
+                                    <arg value="${project.build.directory}/keycloak-saml.zip"/>
+                                    <arg value="-d"/>
+                                    <arg value="${project.build.directory}/keycloak-saml"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-jar-maven-plugin</artifactId>
@@ -46,25 +87,27 @@
                 <configuration>
                     <!-- some tests check for the provisioned galleon layers -->
                     <record-state>true</record-state>
-                    <feature-pack-location>org.wildfly:wildfly-cloud-legacy-galleon-pack:${version.wildfly}</feature-pack-location>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.wildfly:wildfly-cloud-galleon-pack:${version.wildfly}</location>
+                            <included-packages>
+                                <package>org.bouncycastle</package>
+                                <package>org.infinispan.cachestore.remote</package>
+                                <package>org.apache.santuario.xmlsec</package>
+                            </included-packages>
+                        </feature-pack>
+                    </feature-packs>
                     <layers>
                         <layer>cloud-server</layer>
-                        <layer>keycloak</layer>
                     </layers>
                     <plugin-options>
                         <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
                     </plugin-options>
                     <hollow-jar>true</hollow-jar>
-                    <cli-sessions>
-                        <cli-session>
-                            <resolveExpressions>true</resolveExpressions>
-                            <script-files>
-                                <script>script.cli</script>
-                            </script-files>
-                        </cli-session>
-                    </cli-sessions>
                     <extra-server-content-dirs>
-                        <extra-content>extra-content</extra-content>
+                        <extra-content>${project.build.directory}/keycloak-saml</extra-content>
+                        <extra-content>${project.build.directory}/keycloak-oidc</extra-content>
+                        <extra-content>${project.build.directory}/deployments</extra-content>
                     </extra-server-content-dirs>
                     <server/>
                 </configuration>
