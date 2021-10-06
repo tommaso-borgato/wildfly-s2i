@@ -26,7 +26,8 @@ envs:
       # Workaround for bug in runtime image
     - name: JAVA_HOME
       value: /usr/lib/jvm/jre-11
-
+    - name: SSO_DEFAULT_PROVIDER_NAME
+      value: keycloak
 ports:
     - value: 8080
 modules:
@@ -49,7 +50,7 @@ packages:
   install:
           # required by launch scripts
           - hostname
-
+          - jq
 run:
       user: 185
       cmd:
