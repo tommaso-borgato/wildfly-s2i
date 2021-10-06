@@ -11,7 +11,7 @@ Feature: Wildfly Legacy s2i tests
       | path     | /     |
       | port     | 8080  |
 
-Scenario: Test preconfigure.sh
+  Scenario: Test preconfigure.sh
     Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-advanced-extensions with env and True using master
       | variable                             | value         |
       | TEST_EXTENSION_PRE_ADD_PROPERTY      | foo           |
