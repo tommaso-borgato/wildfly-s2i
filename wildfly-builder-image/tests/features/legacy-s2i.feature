@@ -1,6 +1,15 @@
-@wip
 @wildfly/wildfly-centos7
 Feature: Wildfly Legacy extensions tests
+
+  Scenario: Test provisioning.xml file
+    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-galleon-incremental with env and True using master
+      | variable                             | value         |
+      | GALLEON_USE_LOCAL_FILE             | true  |
+    Then container log should contain WFLYSRV0025
+    And check that page is served
+      | property | value |
+      | path     | /     |
+      | port     | 8080  |
 
   Scenario: Test preconfigure.sh
     Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-advanced-extensions with env and True using master
