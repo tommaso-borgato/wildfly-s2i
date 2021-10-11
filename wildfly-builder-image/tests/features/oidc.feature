@@ -11,10 +11,10 @@ Feature: OIDC tests
        | OIDC_PROVIDER_NAME | keycloak |
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |
        | MAVEN_REPO_ID         | staging |
-       | MAVEN_REPO_URL      | https://repository.jboss.org/nexus/content/repositories/jboss_releases_staging_profile-18431 |
+       | MAVEN_REPO_URL      | https://repository.jboss.org/nexus/content/repositories/snapshots |
     Then container log should contain WFLYSRV0010: Deployed "oidc-webapp.war"
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value keycloak on XPath //ns:provider/@name
-
+@wip
    Scenario: deploys the keycloak examples, then checks if it's deployed.
      Given XML namespaces
        | prefix | url                          |
@@ -26,9 +26,9 @@ Feature: OIDC tests
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |
        | MAVEN_ARGS_APPEND | -Dmaven.compiler.source=1.6 -Dmaven.compiler.target=1.6 |
        | GALLEON_PROVISION_LAYERS | web-server,elytron-oidc-client |
-       | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-cloud-galleon-pack:25.0.0.Final |
-       | MAVEN_REPO_ID         | staging-jf |
-       | MAVEN_REPO_URL      | https://repository.jboss.org/nexus/content/repositories/jboss_releases_staging_profile-18431 |
+       | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-galleon-pack:25.0.0.Final,org.wildfly:wildfly-cloud-galleon-pack:1.0.0.Final-SNAPSHOT |
+       | MAVEN_REPO_ID         | snapshot |
+       | MAVEN_REPO_URL      | https://repository.jboss.org/nexus/content/repositories/snapshots |
     Then container log should contain WFLYSRV0010: Deployed "app-profile-jsp.war"
     Then container log should contain WFLYSRV0010: Deployed "app-jsp.war"
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value keycloak on XPath //ns:provider/@name
