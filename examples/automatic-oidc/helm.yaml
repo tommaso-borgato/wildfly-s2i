@@ -1,0 +1,16 @@
+image:
+  name: quay.io/jfdenise/oidc-app
+build:
+  enabled: false
+deploy:
+    env:
+        - name: OIDC_PROVIDER_NAME
+          value: "keycloak"
+        - name: OIDC_USER_NAME
+          value: "admin"
+        - name: OIDC_USER_PASSWORD
+          value: "admin"
+        - name: OIDC_SECURE_DEPLOYMENT_SECRET
+          value: "mysecret"
+        - name: OIDC_DISABLE_SSL_CERTIFICATE_VALIDATION
+          value: "true"
