@@ -24,7 +24,7 @@ Scenario: Test preconfigure.sh
       | path     | /     |
       | port     | 8080  |
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
-@wip
+
   Scenario: Test default cloud config
     Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app with env and True using master
       | variable                             | value         |
@@ -95,3 +95,20 @@ Scenario: Test external driver created during s2i.
     Then XML file /opt/server/standalone/configuration/standalone.xml should have 1 elements on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:wildfly:microprofile-opentracing-smallrye:')]
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value test-TEST on XPath //*[local-name()='datasource']/@pool-name
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value testpostgres on XPath //*[local-name()='driver']/@name
+
+  Scenario: deploys the helloworld-mdb example, then checks if it's deployed properly.
+    Given s2i build https://github.com/wildfly/quickstart from helloworld-mdb using 26.0.0.Final
+    | variable              | value                                   |
+    | GALLEON_PROVISION_LAYERS             | cloud-default-config,embedded-activemq  |
+    | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-galleon-pack:26.0.0.Final, org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.0.Beta4-SNAPSHOT |
+    Then container log should contain Bound messaging object to jndi name java:/queue/HELLOWORLDMDBQueue
+    Then container log should contain Bound messaging object to jndi name java:/topic/HELLOWORLDMDBTopic
+    Then container log should contain Started message driven bean 'HelloWorldQueueMDB' with 'activemq-ra.rar' resource adapter
+    Then container log should contain Started message driven bean 'HelloWorldQTopicMDB' with 'activemq-ra.rar' resource adapter
+    Then XML file /opt/server/standalone/configuration/standalone.xml should contain value default on XPath  //*[local-name()='subsystem' and starts-with(namespace-uri(), 'urn:jboss:domain:messaging-activemq:')]/*[local-name()='server']/@name
+    Then container log should contain WFLYSRV0025
+    And check that page is served
+      | property | value |
+      | path     | /HelloWorldMDBServletClient     |
+      | port     | 8080  |
+    Then container log should contain Received Message from queue: This is message 1
