@@ -1,8 +1,9 @@
+@wildfly/wildfly-s2i-jdk17
 @wildfly/wildfly-s2i-jdk11
 Feature: Wildfly extensions tests
 
   Scenario: Build server image
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-advanced-extensions with env and True using v2
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-advanced-extensions with env and True using v2-jdk17
     | variable                             | value         |
     ### PLACEHOLDER FOR CLOUD CUSTOM TESTING ###
     Then container log should contain WFLYSRV0025

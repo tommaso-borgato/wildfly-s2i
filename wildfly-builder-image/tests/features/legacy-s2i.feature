@@ -1,8 +1,9 @@
+@wildfly/wildfly-s2i-jdk17
 @wildfly/wildfly-s2i-jdk11
 Feature: Wildfly Legacy s2i tests
 
   Scenario: Test provisioning.xml file
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/vanilla-wildfly/test-app-local-provisioning with env and True using v2
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/vanilla-wildfly/test-app-local-provisioning with env and True using v2-jdk17
       | variable                             | value         |
       | GALLEON_USE_LOCAL_FILE             | true  |
     Then container log should contain WFLYSRV0025
@@ -12,7 +13,7 @@ Feature: Wildfly Legacy s2i tests
       | port     | 8080  |
 
 Scenario: Test preconfigure.sh
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-advanced-extensions with env and True using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-advanced-extensions with env and True using master
       | variable                             | value         |
       | TEST_EXTENSION_PRE_ADD_PROPERTY      | foo           |
       | GALLEON_PROVISION_LAYERS | cloud-server |
@@ -26,7 +27,7 @@ Scenario: Test preconfigure.sh
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
 
   Scenario: Test default cloud config
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app with env and True using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using master
       | variable                             | value         |
       | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-galleon-pack:26.0.0.Final, org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.0.Beta3 |
       | GALLEON_PROVISION_LAYERS | cloud-default-config |
@@ -38,7 +39,7 @@ Scenario: Test preconfigure.sh
       | port     | 8080  |
 
   Scenario: Test cloud-server, exclude jaxrs
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app with env and True using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using master
       | variable                             | value         |
       | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-galleon-pack:26.0.0.Final, org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.0.Beta3 |
       | GALLEON_PROVISION_LAYERS             | cloud-server,-jaxrs  |
@@ -51,7 +52,7 @@ Scenario: Test preconfigure.sh
     Then XML file /opt/server/.galleon/provisioning.xml should contain value jaxrs on XPath //*[local-name()='installation']/*[local-name()='config']/*[local-name()='layers']/*[local-name()='exclude']/@name
 
   Scenario: Test preview FP and preview cloud FP with legacy app.
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app with env and True using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using master
       | variable                             | value         |
       | GALLEON_PROVISION_LAYERS | cloud-server |
       | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-preview-feature-pack:26.0.0.Final, org.wildfly.cloud:wildfly-preview-cloud-galleon-pack:1.0.0.Beta3 |
@@ -63,7 +64,7 @@ Scenario: Test preconfigure.sh
       | port     | 8080  |
 
 Scenario: Test external driver created during s2i.
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-custom with env and true using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-custom with env and true using master
       | variable                     | value                                                       |
       | ENV_FILES                    | /opt/server/standalone/configuration/datasources.env |
       | GALLEON_PROVISION_LAYERS             | cloud-server  |
@@ -79,7 +80,7 @@ Scenario: Test external driver created during s2i.
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value testpostgres on XPath //*[local-name()='driver']/@name
 
   Scenario: Test external driver created during s2i.
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-custom with env and true using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-custom with env and true using master
       | variable                     | value                                                       |
       | ENV_FILES                    | /opt/server/standalone/configuration/datasources.env |
       | DISABLE_BOOT_SCRIPT_INVOKER  | true |

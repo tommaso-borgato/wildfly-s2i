@@ -1,3 +1,4 @@
+@wildfly/wildfly-s2i-jdk17
 @wildfly/wildfly-s2i-jdk11
 Feature: OIDC tests
 
@@ -5,7 +6,7 @@ Feature: OIDC tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:wildfly:elytron-oidc-client:1.0 |
-     Given s2i build git://github.com/wildfly/wildfly-s2i from test/test-app-elytron-oidc-client with env and True using v2
+     Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-elytron-oidc-client with env and True using v2-jdk17
        | variable               | value                                            |
        | OIDC_PROVIDER_NAME | keycloak |
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |
@@ -24,7 +25,7 @@ Feature: OIDC tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:wildfly:elytron-oidc-client:1.0 |
-     Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-elytron-oidc-client-legacy with env and True using keycloak-v2-and-oidc-support
+     Given s2i build git://github.com/jfdenise/wildfly-s2i from test/test-app-elytron-oidc-client-legacy with env and True using v2-jdk17
        | variable               | value                                            |
        | OIDC_PROVIDER_NAME | keycloak |
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |

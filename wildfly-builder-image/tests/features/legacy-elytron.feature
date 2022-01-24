@@ -1,8 +1,9 @@
+@wildfly/wildfly-s2i-jdk17
 @wildfly/wildfly-s2i-jdk11
 Feature: Some elytron testing
 
 Scenario: Build elytron app
-    Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app-web-security with env and true using master
+    Given s2i build https://github.com/jfdenise/wildfly-s2i from test/test-app-web-security with env and true using master
        | variable                   | value       |
        | GALLEON_PROVISION_LAYERS | datasources-web-server |
        | GALLEON_PROVISION_FEATURE_PACKS | org.wildfly:wildfly-galleon-pack:26.0.0.Final, org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.0.Beta3 |
