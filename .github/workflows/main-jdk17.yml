@@ -63,7 +63,9 @@ jobs:
       - name: Build 
         run: |
           . ~/cekit/bin/activate
-          make
+          pushd wildfly-builder-image
+          cekit build --overrides=jdk17-overrides.yaml docker
+          popd
           docker image ls
       - name: Behave Tests
         run: |
