@@ -71,7 +71,7 @@ jobs:
         run: |
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
-          cekit -v --image=wildfly/wildfly-s2i-jdk17:latest test behave
+          cekit -v test --image=wildfly/wildfly-s2i-jdk17:latest behave
           popd
       - name: Additional Tests
         run: |
