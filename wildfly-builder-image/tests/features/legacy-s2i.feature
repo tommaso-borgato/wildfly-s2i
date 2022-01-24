@@ -24,7 +24,7 @@ Scenario: Test preconfigure.sh
       | path     | /     |
       | port     | 8080  |
     Then XML file /opt/server/standalone/configuration/standalone.xml should contain value foo on XPath //*[local-name()='property' and @name="foo"]/@value
-@wip
+
   Scenario: Test default cloud config
     Given s2i build https://github.com/wildfly/wildfly-s2i from test/test-app with env and True using master
       | variable                             | value         |
