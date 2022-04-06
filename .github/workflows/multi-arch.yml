@@ -73,10 +73,10 @@ jobs:
         run: |
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
-          cekit build docker --platform linux/amd64
+          cekit -v build docker --platform linux/amd64
           popd
           pushd wildfly-runtime-image
-          cekit build docker --platform linux/amd64
+          cekit -v build docker --platform linux/amd64
           popd
           docker image ls
       - name: Display resources information
