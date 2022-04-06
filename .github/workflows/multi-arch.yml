@@ -24,6 +24,14 @@ jobs:
           sudo bash -c "echo '::1         localhost localhost.localdomain localhost6 localhost6.localdomain6' >> /etc/hosts"
           sudo sysctl -w fs.file-max=2097152
       - uses: actions/checkout@v2
+      - name: Enable experimental features
+        run: |
+          echo "Checking docker config"
+          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json
+          sudo systemctl restart docker
+          cat /etc/docker/daemon.json
+          docker version
+          docker info
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -38,10 +46,6 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
       - name: Verify latest ubi8-minimal
         run: |
-          echo "Checking docker config"
-          cat /etc/docker/daemon.json
-          docker version
-          docker info
           docker pull registry.access.redhat.com/ubi8/ubi-minimal
           docker image ls | grep ubi8
       - name: Setup required system packages
