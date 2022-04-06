@@ -77,7 +77,7 @@ jobs:
           #ocker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
           #popd
           pushd wildfly-runtime-image
-          sudo cekit -v build podman --platform linux/amd64,linux/arm64
+          cekit -v build podman --platform linux/amd64,linux/arm64
           sudo podman login -u="jfdenise" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           sudo podman tag wildfly/wildfly-runtime-jdk11:latest quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch-podman:latest
           sudo podman push quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch-podman:latest
