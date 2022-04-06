@@ -68,13 +68,13 @@ jobs:
         run: |
 
           . ~/cekit/bin/activate
-          pushd wildfly-builder-image
-          cekit -v build --dry-run docker
-          docker build --squash --platform linux/amd64,linux/arm64 --push quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest -t wildfly/wildfly-s2i-jdk11-multi-arch:latest target/image
-          popd
+          #pushd wildfly-builder-image
+          #cekit -v build --dry-run docker
+          #ocker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
+          #popd
           pushd wildfly-runtime-image
           cekit -v build --dry-run docker
-          docker build --squash --platform linux/amd64,linux/arm64 --push quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest -t wildfly/wildfly-runtime-jdk11-multi-arch:latest target/image
+          docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
           popd
           docker image ls
       - name: Display resources information
