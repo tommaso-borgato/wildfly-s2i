@@ -57,14 +57,22 @@ jobs:
         run: |
 
           . ~/cekit/bin/activate
+          docker login -u="jfdenise" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           pushd wildfly-builder-image
           cekit -v build --dry-run docker
           docker buildx build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
           popd
           pushd wildfly-runtime-image
           cekit -v build --dry-run docker
-          docker login -u="jfdenise" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           docker buildx build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
+          popd
+          pushd wildfly-builder-image
+          cekit -v build --dry-run --overrides=jdk17-overrides.yaml docker
+          docker buildx build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk17-multi-arch:latest target/image
+          popd
+          pushd wildfly-runtime-image
+          cekit -v build --dry-run --overrides=jdk17-overrides.yaml docker
+          docker buildx build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk17-multi-arch:latest target/image
           popd
           docker image ls
       - name: Display resources information
