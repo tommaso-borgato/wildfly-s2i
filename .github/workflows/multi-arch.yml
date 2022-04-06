@@ -70,11 +70,11 @@ jobs:
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
           cekit -v build --dry-run docker
-          docker build --platform linux/amd64,linux/arm64 target/image
+          docker build --squash --platform linux/amd64,linux/arm64 -t wildfly/wildfly-s2i-jdk11-multi-arch:latest target/image
           popd
           pushd wildfly-runtime-image
           cekit -v build --dry-run docker
-          docker buildx build --platform linux/amd64,linux/arm64 target/image
+          docker build --squash --platform linux/amd64,linux/arm64 -t wildfly/wildfly-runtime-jdk11-multi-arch:latest target/image
           popd
           docker image ls
       - name: Display resources information
