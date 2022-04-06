@@ -1,4 +1,4 @@
-name: Wildfly s2i Image JDK 17 CI
+name: Multi arch test
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -24,9 +24,18 @@ jobs:
           sudo bash -c "echo '::1         localhost localhost.localdomain localhost6 localhost6.localdomain6' >> /etc/hosts"
           sudo sysctl -w fs.file-max=2097152
       - uses: actions/checkout@v2
-      - uses: n1hility/cancel-previous-runs@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          install: true
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
       - name: Verify latest ubi8-minimal
         run: |
           docker pull registry.access.redhat.com/ubi8/ubi-minimal
@@ -64,26 +73,12 @@ jobs:
         run: |
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
-          cekit build --overrides=jdk17-overrides.yaml docker
+          cekit build docker --platform linux/amd64
           popd
           pushd wildfly-runtime-image
-          cekit build --overrides=jdk17-overrides.yaml docker
+          cekit build docker --platform linux/amd64
           popd
           docker image ls
-      - name: Behave Tests
-        run: |
-          . ~/cekit/bin/activate
-          pushd wildfly-builder-image
-          cekit -v test --image=wildfly/wildfly-s2i-jdk17:latest behave
-          popd
-      - name: Additional Tests
-        run: |
-          export IMAGE_VERSION=$(./tools/release/get-image-version.sh wildfly/wildfly-s2i-jdk17)
-          export NAMESPACE=wildfly
-          export IMAGE_NAME=${NAMESPACE}/wildfly-s2i-jdk17
-          export RUNTIME_IMAGE_NAME=${NAMESPACE}/wildfly-runtime-jdk17
-          . ~/cekit/bin/activate
-          ./test/run
       - name: Display resources information
         if: failure()
         run: |
