@@ -74,7 +74,7 @@ jobs:
           pushd wildfly-builder-image
           cekit -v build podman --platform linux/amd64,linux/arm64
           #docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
-          #popd
+          popd
           pushd wildfly-runtime-image
           cekit -v build podman --platform linux/amd64,linux/arm64
           #docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
@@ -85,6 +85,8 @@ jobs:
           podman tag wildfly/wildfly-s2i-jdk11:latest quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch-podman:latest
           podman push quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch-podman:latest
           podman image ls
+          podman inspect quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch-podman:latest
+          podman inspect quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch-podman:latest
       - name: Display resources information
         if: failure()
         run: |
