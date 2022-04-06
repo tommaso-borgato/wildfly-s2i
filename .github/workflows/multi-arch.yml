@@ -38,6 +38,10 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
       - name: Verify latest ubi8-minimal
         run: |
+          echo "Checking docker config"
+          cat /etc/docker/daemon.json
+          docker version
+          docker info
           docker pull registry.access.redhat.com/ubi8/ubi-minimal
           docker image ls | grep ubi8
       - name: Setup required system packages
@@ -58,8 +62,7 @@ jobs:
           pip install cekit docker docker-squash odcs behave lxml 
       - name: Build 
         run: |
-          docker version
-          docker info
+
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
           cekit -v build docker --platform linux/amd64
