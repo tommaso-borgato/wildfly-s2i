@@ -35,7 +35,7 @@ jobs:
       - name: Setup podman
         run: |
           sudo apt-get update
-          sudo apt-get install podman
+          sudo apt-get install podman qemu-user-static
 #      -
 #        name: Set up QEMU
 #        uses: docker/setup-qemu-action@v1
