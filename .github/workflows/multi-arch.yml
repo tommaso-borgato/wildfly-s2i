@@ -56,21 +56,9 @@ jobs:
           python3 -m venv ~/cekit
           . ~/cekit/bin/activate
           pip install cekit docker docker-squash odcs behave lxml 
-      - name: install s2i binary
-        run: |
-          echo ===== Installing s2i from ${{ env.S2I_URL }} =====
-          mkdir /tmp/s2i/ && cd /tmp/s2i/
-          curl -s ${{ env.S2I_URI }} \
-           | grep browser_download_url \
-           | grep linux-amd64 \
-           | cut -d '"' -f 4 \
-           | wget -qi -
-           tar xvf source-to-image*.gz
-           sudo mv s2i /usr/bin
-           which s2i
-           s2i version
       - name: Build 
         run: |
+          docker version
           . ~/cekit/bin/activate
           pushd wildfly-builder-image
           cekit -v build docker --platform linux/amd64
