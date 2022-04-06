@@ -71,17 +71,19 @@ jobs:
         run: |
 
           . ~/cekit/bin/activate
-          #pushd wildfly-builder-image
-          #cekit -v build --dry-run docker
-          #ocker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
+          pushd wildfly-builder-image
+          cekit -v build podman --platform linux/amd64,linux/arm64
+          #docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch:latest target/image
           #popd
           pushd wildfly-runtime-image
           cekit -v build podman --platform linux/amd64,linux/arm64
+          #docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
+          popd
           podman login -u="jfdenise" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           podman tag wildfly/wildfly-runtime-jdk11:latest quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch-podman:latest
           podman push quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch-podman:latest
-          #docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
-          popd
+          podman tag wildfly/wildfly-s2i-jdk11:latest quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch-podman:latest
+          podman push quay.io/jfdenise/wildfly-s2i-jdk11-multi-arch-podman:latest
           podman image ls
       - name: Display resources information
         if: failure()
