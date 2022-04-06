@@ -74,6 +74,7 @@ jobs:
           #popd
           pushd wildfly-runtime-image
           cekit -v build --dry-run docker
+          docker login -u="jfdenise" -p="${{ secrets.QUAY_PASSWORD }}" quay.io
           docker build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/jfdenise/wildfly-runtime-jdk11-multi-arch:latest target/image
           popd
           docker image ls
