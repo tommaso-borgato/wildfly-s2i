@@ -1,8 +1,8 @@
 build:
   uri: https://github.com/jfdenise/wildfly-s2i
   mode: s2i
-  contextDir: examples/elytron-oidc-client
-  ref: elytron-oidc-auto-example-auto-reg
+  contextDir: examples/elytron-oidc-client-auto-reg
+  ref: elytron-oidc-auto-example
   s2i:
     version: latest
     builderImage: quay.io/wildfly/wildfly-s2i-jdk11
@@ -12,9 +12,9 @@ deploy:
   env:
     - name: OIDC_PROVIDER_NAME
       value: "keycloak"
-    - name: OIDC_PROVIDER_URL
-      value: "https://sso-jdenise-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/auth/realms/Master"
     - name: OIDC_USER_NAME
-      value: "DImd8XMo"
+      value: "demo"
     - name: OIDC_USER_PASSWORD
-      value: "qp48EMvufmjHdFmukCdnMws3l2SfnFHl"
+      value: "demo"
+    - name: OIDC_SECURE_DEPLOYMENT_SECRET
+      value: "mysecret"

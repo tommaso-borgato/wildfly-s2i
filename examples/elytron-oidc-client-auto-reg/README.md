@@ -67,17 +67,31 @@ when instantiating the template.
 To retrieve the SSO admin user name and password that will be needed to log into the SSO admin console, 
 access the SSO deployment config and look for `SSO_ADMIN_USERNAME` and `SSO_ADMIN_PASSWORD` env variable values.
 
+3. Create the SSO realm, user and role
+
+  * Log into the SSO admin console (`https://<SSO route>/auth/`). You must use the values of `SSO_ADMIN_USERNAME` and `SSO_ADMIN_PASSWORD` to log-in. 
+  * Create a Realm named `WildFly`
+  * Create a Role named `Users`
+  * Create a User named `demo`, password `demo`, make the password not temporary.
+  * Assign the role `Users` to the user `demo`
+  * Go to Roles, select `default-roles-wildfly`, in the `Client Roles` Select the Client `realm-management`, assign the role `create-client`
+
 2. Deploy the example application using WildFly Helm charts
 
 ```
-helm install elytron-oidc-client-app -f helm.yaml wildfly/wildfly
+helm install elytron-oidc-client-app-auto-reg -f helm.yaml wildfly/wildfly
 ```
 
-3. Finally add the env variable to the `elytron-oidc-client-app` deployment to convey the system property to the server
+3. Finally add the env variable to the `elytron-oidc-client-app-auto-reg` deployment to convey the system property to the server
 
-`oc set env deployment/elytron-oidc-client-app SERVER_ARGS=-Dorg.wildfly.s2i.example.oidc.provider-url=https://<SSO route>/auth/realms/WildFly`
+`oc set env deployment/elytron-oidc-client-app-auto-reg OIDC_HOSTNAME_HTTPS=<application route hostname>`
+`oc set env deployment/elytron-oidc-client-app-auto-reg OIDC_PROVIDER_URL=https://<sso service route>/auth/realms/WildFly`
 
-5. Access the application: `https://<elytron-oidc-client-app route>/simple-webapp`
+Then do an upgrade of the Helm charts to reflect your changes done to the deployment
+
+`helm upgrade elytron-oidc-client-app-auto-reg wildfly/wildfly`
+
+5. Access the application: `https://<elytron-oidc-client-app-auto-reg route>/simple-webapp`
 
 6. Access the secured servlet.
 
