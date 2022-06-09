@@ -3,7 +3,7 @@
 Feature: Wildfly configured for datasources
 
   Scenario: Build image with server
-    Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-postgresql-mysql with env and true using main
+    Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-postgresql-mysql with env and true using adjust_java_opts
     | variable                 | value           |
     ### PLACEHOLDER FOR CLOUD CUSTOM TESTING ###
     Then container log should contain WFLYSRV0025

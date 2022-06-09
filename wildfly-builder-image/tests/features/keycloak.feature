@@ -6,13 +6,13 @@ Feature: Keycloak legacy tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:jboss:domain:keycloak:1.2 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-keycloak-legacy using main
+     Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-keycloak-legacy using adjust_java_opts
        | variable                   | value                                            |
        | ARTIFACT_DIR               | app-profile-jee/target,app-profile-jee-saml/target |
        | SSO_USE_LEGACY  | true |
        | SSO_REALM         | demo    |
        | SSO_URL           | http://localhost:8080/auth    |
-       | GALLEON_PROVISION_FEATURE_PACKS|org.wildfly:wildfly-galleon-pack:26.1.1.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.0.Final |
+       | GALLEON_PROVISION_FEATURE_PACKS|org.wildfly:wildfly-galleon-pack:26.1.1.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.1.Final-SNAPSHOT |
        | GALLEON_PROVISION_LAYERS|cloud-default-config|
     Then container log should contain Existing other application-security-domain is extended with support for keycloak
     Then container log should contain WFLYSRV0025

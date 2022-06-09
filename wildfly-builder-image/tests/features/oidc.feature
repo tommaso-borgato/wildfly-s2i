@@ -6,7 +6,7 @@ Feature: OIDC tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:wildfly:elytron-oidc-client:1.0 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-elytron-oidc-client with env and True using main
+     Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-elytron-oidc-client with env and True using adjust_java_opts
        | variable               | value                                            |
        | OIDC_PROVIDER_NAME | keycloak |
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |
@@ -25,14 +25,14 @@ Feature: OIDC tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:wildfly:elytron-oidc-client:1.0 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-elytron-oidc-client-legacy with env and True using main
+     Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-elytron-oidc-client-legacy with env and True using adjust_java_opts
        | variable               | value                                            |
        | OIDC_PROVIDER_NAME | keycloak |
        | OIDC_PROVIDER_URL           | http://localhost:8080/auth/realms/demo    |
        | OIDC_SECURE_DEPLOYMENT_ENABLE_CORS        | true                          |
        | OIDC_SECURE_DEPLOYMENT_BEARER_ONLY        | true                          |
        | GALLEON_PROVISION_LAYERS | cloud-server,elytron-oidc-client |
-       | GALLEON_PROVISION_FEATURE_PACKS|org.wildfly:wildfly-galleon-pack:26.1.1.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.0.Final |
+       | GALLEON_PROVISION_FEATURE_PACKS|org.wildfly:wildfly-galleon-pack:26.1.1.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.1.Final-SNAPSHOT |
     Then container log should contain WFLYSRV0010: Deployed "oidc-webapp-legacy.war"
     And XML file /opt/server/standalone/configuration/standalone.xml should contain value keycloak on XPath //ns:provider/@name
     And XML file /opt/server/standalone/configuration/standalone.xml should contain value oidc-webapp-legacy.war on XPath //*[local-name()='secure-deployment']/@name
