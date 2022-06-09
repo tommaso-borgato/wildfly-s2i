@@ -2,7 +2,7 @@ build:
   uri: https://github.com/jfdenise/wildfly-s2i
   mode: s2i
   contextDir: examples/elytron-oidc-client
-  ref: elytron-oidc-auto-example
+  ref: elytron-oidc-auto-example-auto-reg
   s2i:
     version: latest
     builderImage: quay.io/wildfly/wildfly-s2i-jdk11
