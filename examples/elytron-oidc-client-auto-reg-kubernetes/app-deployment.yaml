@@ -1,0 +1,43 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: elytron-oidc-client
+  labels:
+    app.kubernetes.io/instance: elytron-oidc-client
+    app.kubernetes.io/name: wildfly
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: elytron-oidc-client
+      app.kubernetes.io/name: wildfly
+  template:
+    metadata:
+      name: elytron-oidc-client
+      labels:
+        app.kubernetes.io/instance: elytron-oidc-client
+        app.kubernetes.io/name: wildfly
+    spec:
+      containers:
+        - name: elytron-oidc-client
+          image: <DOCKER_REGISTRY_IP>:80/simple-webapp:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: admin
+              containerPort: 9990
+              protocol: TCP
+          env:
+            - name: OIDC_PROVIDER_NAME
+              value: keycloak
+            - name: OIDC_USER_NAME
+              value: demo
+            - name: OIDC_USER_PASSWORD
+              value: demo
+            - name: OIDC_SECURE_DEPLOYMENT_SECRET
+              value: mysecret
+            - name: OIDC_PROVIDER_URL
+              value: http://<CLUSTER EXTERNAL IP>:30079/realms/WildFly
+            - name: OIDC_HOSTNAME_HTTP
+              value: <CLUSTER EXTERNAL IP>:30078

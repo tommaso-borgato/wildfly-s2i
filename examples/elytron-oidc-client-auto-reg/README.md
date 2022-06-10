@@ -1,10 +1,9 @@
-# Elytron OpenID Connect (OIDC) client example
+# Elytron OpenID Connect (OIDC) client with automatic registration example on Openshift
 
 In this example we are provisioning a WildFly server and deploying an application secured 
 with OIDC (OpenID Connect).
 
-In this example, the OIDC configuration is located inside the `WEB-INF/oidc.json` application file. The configuration expects the system property 
-`org.wildfly.s2i.example.oidc.provider-url` to be set. 
+In this example, the OIDC configuration is automatically generated and Realm client added to the server.
 
 # WildFly Maven plugin configuration
 High level view of the WildFly Maven plugin configuration
@@ -12,6 +11,7 @@ High level view of the WildFly Maven plugin configuration
 ## Galleon feature-packs
 
 * `org.wildfly:wildfly-galleon-pack`
+* `org.wildfly.cloud:wildfly-cloud-galleon-pack`
 
 ## Galleon layers
 
@@ -36,7 +36,17 @@ Technologies required to build and deploy this example
 # WildFly image API
 Environment variables from the [WildFly image API](https://github.com/wildfly/wildfly-cekit-modules/blob/main/jboss/container/wildfly/run/api/module.yaml) that must be set in the OpenShift deployment environment
 
-* `SERVER_ARGS`. Used to convey the system property that references the Keycloak server URL.
+* None
+
+# WildFly cloud feature-pack API
+Environment variables defined by the cloud feature-pack used to configure the server:
+
+* `OIDC_PROVIDER_NAME`. Value `keycloak`, required
+* `OIDC_USER_NAME`. User name to retrieve token used to create Clients.
+* `OIDC_USER_PASSWORD`. User password to retrieve token used to create Client.
+* `OIDC_SECURE_DEPLOYMENT_SECRET`. Secret known by the Client.
+* `OIDC_PROVIDER_URL`. Keycloak server URL.
+* `OIDC_HOSTNAME_HTTPS`. Web application host name.
 
 # Pre-requisites
 

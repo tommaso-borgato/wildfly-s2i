@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: elytron-oidc-client
+  labels:
+    app: elytron-oidc-client
+spec:
+  selector:
+    app.kubernetes.io/instance: elytron-oidc-client
+    app.kubernetes.io/name: wildfly
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30078
+      name: http
+

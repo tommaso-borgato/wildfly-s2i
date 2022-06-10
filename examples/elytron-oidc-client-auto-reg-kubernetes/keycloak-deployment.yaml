@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-server
+  labels:
+    app: keycloak-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-server
+  template:
+    metadata:
+      labels:
+        app: keycloak-server
+    spec:
+      containers:
+      - name: keycloak-server
+        image: quay.io/keycloak/keycloak:18.0.0
+        args: ["start-dev"]
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"
+        - name: KC_PROXY
+          value: "edge"
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /realms/master
+            port: 8080
+
