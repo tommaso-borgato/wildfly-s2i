@@ -123,7 +123,7 @@ jobs:
           wildfly-s2i-builder-image
           docker login -u="${{ secrets.QUAY_WILDFLY_QS_ROBOT }}" -p="${{ secrets.QUAY_WILDFLY_QS_ROBOT_TOKEN }}" quay.io
           docker tag wildfly-s2i-builder-image:latest quay.io/${{ secrets.QUAY_QS_REPO }}/clusterbench:latest
-          docker push quay.io/${{ secrets.QUAY_QS_REPO }}/clusterbench:latest
+          docker push quay.io/${{ secrets.QUAY_WILDFLY_QS_REPO }}/clusterbench:latest
       - name: Log in to OpenShift
         if: env.OPENSHIFT_SERVER != '' && env.OPENSHIFT_TOKEN != ''
         uses: redhat-actions/oc-login@v1
