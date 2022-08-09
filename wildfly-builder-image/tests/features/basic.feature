@@ -3,9 +3,12 @@
 Feature: Wildfly basic tests
 
   Scenario: Check that the legacy default config provisioned using galleon plugin works fine
-   Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-default-config with env and True using main
+   Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-default-config with env and True using ee-10-migration
    | variable                 | value           |
    | S2I_SERVER_DIR | server |
+   | MAVEN_REPO_ID | opensaml |
+   | MAVEN_REPO_NAME | opensaml |
+   | MAVEN_REPO_URL | https://build.shibboleth.net/nexus/content/groups/public |
    ### PLACEHOLDER FOR CLOUD CUSTOM TESTING ###
    Then container log should contain Running wildfly/wildfly-s2i-jdk
    Then container log should contain WFLYSRV0025
@@ -23,8 +26,11 @@ Feature: Wildfly basic tests
       | port     | 8080  |
 
   Scenario: Check if image version and release is printed on boot
-   Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app with env and True using main
+   Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app with env and True using ee-10-migration
    | variable                 | value           |
+   | MAVEN_REPO_ID | opensaml |
+   | MAVEN_REPO_NAME | opensaml |
+   | MAVEN_REPO_URL | https://build.shibboleth.net/nexus/content/groups/public |
    ### PLACEHOLDER FOR CLOUD CUSTOM TESTING ###
    Then container log should contain Running wildfly/wildfly-s2i-jdk
    Then container log should contain WFLYSRV0025

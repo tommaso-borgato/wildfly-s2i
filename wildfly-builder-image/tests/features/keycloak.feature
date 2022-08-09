@@ -1,3 +1,4 @@
+#IGNORE_TEST_RUN
 #Keycloak tests can't be run starting WF27, missing some JBoss modules.
 @ignore
 @wildfly/wildfly-s2i-jdk17
@@ -8,7 +9,7 @@ Feature: Keycloak legacy tests
      Given XML namespaces
        | prefix | url                          |
        | ns     | urn:jboss:domain:keycloak:1.2 |
-     Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-keycloak-legacy using main
+     Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-keycloak-legacy using ee-10-migration
        | variable                   | value                                            |
        | ARTIFACT_DIR               | app-profile-jee-saml/target |
        | GALLEON_PROVISION_FEATURE_PACKS|org.wildfly:wildfly-galleon-pack:26.1.1.Final,org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.2.Final |

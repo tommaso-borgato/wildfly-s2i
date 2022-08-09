@@ -3,8 +3,11 @@
 Feature: Openshift WildFly jgroups
 
   Scenario: Build server image
-    Given s2i build http://github.com/wildfly/wildfly-s2i from test/test-app-clustering with env and true using main
+    Given s2i build http://github.com/jfdenise/wildfly-s2i from test/test-app-clustering with env and true using ee-10-migration
     | variable                             | value         |
+    | MAVEN_REPO_ID | opensaml |
+    | MAVEN_REPO_NAME | opensaml |
+    | MAVEN_REPO_URL | https://build.shibboleth.net/nexus/content/groups/public |
     ### PLACEHOLDER FOR CLOUD CUSTOM TESTING ###
     Then container log should contain WFLYSRV0025:
 
