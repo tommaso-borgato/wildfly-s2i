@@ -6,6 +6,8 @@ In this example we are deploying 3 WildFly applications on OpenShift:
 * A jms message provider. A servlet that sends messages to a queue.
 * A jms consumer. An MDB EJB that consumes messages.
 
+WARNING: You can't scale the JMS Broker deployment beyond 1. To be able to scale the broker, clustering should be configured at the broker level. This is outside the scope of this example. 
+
 The builder and runtime images are running JDK11.
 
 # WildFly Maven plugin configuration
@@ -18,9 +20,10 @@ High level view of the WildFly Maven plugin configuration
 
 ## Galleon layers
 
-* `cloud-server`, for the 3 applications.
-* `ejb`, for the mdb consumer only.
-* `embedded-activemq`, for the jms broker only.
+* `cloud-server`, for the producer and consumer applications.
+* `core-server`, for the jms broker.
+* `ejb`, for the mdb consumer.
+* `embedded-activemq`, for the jms broker.
 
 ## CLI scripts
 WildFly CLI scripts executed at packaging time
@@ -42,7 +45,7 @@ Extra content packaged inside the provisioned servers
 # Openshift build and deployment
 Technologies required to build and deploy this example
 
-* Helm chart for WildFly `wildfly/wildfly`. Minimal version `2.0.0`.
+* Helm chart for WildFly `wildfly/wildfly`. Minimal version `2.1.0`.
 
 # WildFly image API
 Environment variables from the [WildFly image API](https://github.com/wildfly/wildfly-cekit-modules/blob/main/jboss/container/wildfly/run/api/module.yaml) that must be set in the OpenShift deployment environment
@@ -129,6 +132,8 @@ These messages are persisted, waiting for a consumer to come online.
 4. Scale up the broker
 
 `oc scale --replicas=1 deployments jms-broker`
+
+WARNING: You can't scale the JMS Broker deployment beyond 1. To be able to scale the broker, clustering should be configured at the broker level. This is outside the scope of this example. 
 
 5. Scale up the mdb-consumer
 

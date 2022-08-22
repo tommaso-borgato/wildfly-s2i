@@ -68,7 +68,7 @@
                         </feature-pack>
                     </feature-packs>
                     <layers>
-                        <layer>cloud-server</layer>
+                        <layer>core-server</layer>
                         <layer>embedded-activemq</layer>
                     </layers>
                     <packaging-scripts>
