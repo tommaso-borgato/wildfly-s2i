@@ -20,7 +20,7 @@ High level view of the WildFly Maven plugin configuration
 
 ## Galleon layers
 
-* `cloud-server`, for the roducer and consumer applications.
+* `cloud-server`, for the producer and consumer applications.
 * `core-server`, for the jms broker.
 * `ejb`, for the mdb consumer.
 * `embedded-activemq`, for the jms broker.

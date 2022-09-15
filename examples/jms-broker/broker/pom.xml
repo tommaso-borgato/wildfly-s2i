@@ -69,8 +69,6 @@
                     </feature-packs>
                     <layers>
                         <layer>core-server</layer>
-                        <!-- deployment-scanner is needed because when using HELM, env var AUTO_DEPLOY_EXPLODED is automatically set --> 
-                        <layer>deployment-scanner</layer>
                         <layer>embedded-activemq</layer>
                     </layers>
                     <packaging-scripts>
