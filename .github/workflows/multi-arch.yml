@@ -61,6 +61,12 @@ jobs:
           platforms: linux/amd64, linux/arm64
           containerfiles: |
             ./wildfly-builder-image/target/image/Dockerfile
+      - name: Behave Tests
+        run: |
+          . ~/cekit/bin/activate
+          pushd wildfly-builder-image
+          cekit -v test --image=wildfly-muti-arch:latest behave
+          popd
       - name: Push To Quay
         uses: redhat-actions/push-to-registry@v2.6
         id: push
