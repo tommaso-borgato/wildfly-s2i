@@ -59,7 +59,7 @@ jobs:
           tags: latest
           platforms: linux/amd64, linux/arm64
           containerfiles: |
-            ./wildfly-builder-image/Dockerfile
+            ./wildfly-builder-image/target/image/Dockerfile
       - name: Echo Outputs
         run: |
           echo "Image: ${{ steps.build_image_multiplatform.outputs.image }}"
