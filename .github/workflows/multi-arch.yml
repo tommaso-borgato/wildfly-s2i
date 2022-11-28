@@ -60,7 +60,7 @@ jobs:
           context: ./wildfly-builder-image/target/image
           platforms: linux/amd64, linux/arm64
           containerfiles: |
-            Dockerfile
+            ./wildfly-builder-image/target/image/Dockerfile
       - name: Echo Outputs
         run: |
           echo "Image: ${{ steps.build_image_multiplatform.outputs.image }}"
