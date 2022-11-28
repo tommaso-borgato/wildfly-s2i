@@ -57,9 +57,10 @@ jobs:
         with:
           image: quay.io/jfdenise/wildfly-muti-arch
           tags: latest
+          context: ./wildfly-builder-image/target/image
           platforms: linux/amd64, linux/arm64
           containerfiles: |
-            ./wildfly-builder-image/target/image/Dockerfile
+            Dockerfile
       - name: Echo Outputs
         run: |
           echo "Image: ${{ steps.build_image_multiplatform.outputs.image }}"
