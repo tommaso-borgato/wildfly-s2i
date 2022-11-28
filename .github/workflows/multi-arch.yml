@@ -30,8 +30,8 @@ jobs:
           sudo apt-get install krb5-multidev libkrb5-dev
       - name: Verify latest ubi8-minimal
         run: |
-          docker pull registry.access.redhat.com/ubi8/ubi-minimal
-          docker image ls | grep ubi8
+          podman pull registry.access.redhat.com/ubi8/ubi-minimal
+          podman image ls | grep ubi8
       - name: Setup virtualenv and install cekit and required packages
         run: |
           sudo pip install virtualenv
@@ -61,9 +61,23 @@ jobs:
           platforms: linux/amd64, linux/arm64
           containerfiles: |
             ./wildfly-builder-image/target/image/Dockerfile
+      - name: install s2i binary
+        run: |
+          echo ===== Installing s2i from ${{ env.S2I_URL }} =====
+          mkdir /tmp/s2i/ && cd /tmp/s2i/
+          curl -s ${{ env.S2I_URI }} \
+           | grep browser_download_url \
+           | grep linux-amd64 \
+           | cut -d '"' -f 4 \
+           | wget -qi -
+           tar xvf source-to-image*.gz
+           sudo mv s2i /usr/bin
+           which s2i
+           s2i version
       - name: Behave Tests
         run: |
           . ~/cekit/bin/activate
+          podman push wildfly-muti-arch docker-daemon:wildfly-muti-arch
           pushd wildfly-builder-image
           cekit -v test --image=wildfly-muti-arch:latest behave
           popd
