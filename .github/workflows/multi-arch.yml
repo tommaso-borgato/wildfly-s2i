@@ -58,7 +58,8 @@ jobs:
           image: quay.io/jfdenise/wildfly-muti-arch
           tags: latest
           context: ./wildfly-builder-image/target/image
-          platforms: linux/amd64, linux/arm64
+          #platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64
           containerfiles: |
             ./wildfly-builder-image/target/image/Dockerfile
       - name: push image
