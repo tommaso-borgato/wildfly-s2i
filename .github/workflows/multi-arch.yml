@@ -61,6 +61,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           containerfiles: |
             ./wildfly-builder-image/target/image/Dockerfile
+      - name: push image
+        run: |
+          podman login -u="${{ secrets.V2_QUAY_USERNAME }}" -p="${{ secrets.V2_QUAY_PASSWORD }}" quay.io
+          podman push quay.io/jfdenise/wildfly-muti-arch:latest
       - name: Echo Outputs
         run: |
           echo "Image: ${{ steps.build_image_multiplatform.outputs.image }}"
