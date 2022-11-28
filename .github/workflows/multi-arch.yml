@@ -8,7 +8,6 @@ on:
 env:
   LANG: en_US.UTF-8
   V2_QUAY_REPO: ${{ secrets.V2_QUAY_REPO }}
-  V2_QUAY_SNAPSHOT_REPO: ${{ secrets.V2_QUAY_SNAPSHOT_REPO }}
   V2_QUAY_USERNAME: ${{ secrets.V2_QUAY_USERNAME }}
 jobs:
   wfci:
@@ -16,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check quay.io configuration
-        if: (env.V2_QUAY_USERNAME == '' || env.V2_QUAY_REPO == ''  || env.V2_QUAY_SNAPSHOT_REPO == '')
+        if: (env.V2_QUAY_USERNAME == '' || env.V2_QUAY_REPO == '')
         run: |
           echo "quay.io configuration is incomplete, can't push to quay.io. To push built images to quay.io, please ensure the secrets V2_QUAY_REPO, V2_QUAY_SNAPSHOT_REPO, V2_QUAY_USERNAME and V2_QUAY_PASSWORD are created in the project."
           exit 1
