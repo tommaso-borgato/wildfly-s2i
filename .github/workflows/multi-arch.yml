@@ -19,6 +19,7 @@ jobs:
         run: |
           echo "quay.io configuration is incomplete, can't push to quay.io. To push built images to quay.io, please ensure the secrets V2_QUAY_REPO, V2_QUAY_SNAPSHOT_REPO, V2_QUAY_USERNAME and V2_QUAY_PASSWORD are created in the project."
           exit 1
+      - uses: actions/checkout@v2
       - name: Install qemu dependency
         run: |
           sudo apt-get update
