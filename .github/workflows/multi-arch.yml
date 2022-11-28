@@ -19,14 +19,6 @@ jobs:
         run: |
           echo "quay.io configuration is incomplete, can't push to quay.io. To push built images to quay.io, please ensure the secrets V2_QUAY_REPO, V2_QUAY_SNAPSHOT_REPO, V2_QUAY_USERNAME and V2_QUAY_PASSWORD are created in the project."
           exit 1
-      - name: Checkout Buildah action
-        uses: actions/checkout@v2
-        with:
-          path: "buildah-build"
-
-      - name: Install latest buildah
-        run: |
-          bash buildah-build/.github/install_latest_buildah.sh
       - name: Install qemu dependency
         run: |
           sudo apt-get update
@@ -58,9 +50,9 @@ jobs:
            cekit -v build --dry-run docker
            #docker buildx build --squash --platform linux/amd64,linux/arm64 --push  -t quay.io/${{ secrets.V2_QUAY_SNAPSHOT_REPO }}/wildfly-runtime-jdk11-multi-arch:latest target/image
            popd
-      - name: Build Image
+      - name: Buildah Build
         id: build_image_multiplatform
-        uses: ./buildah-build/
+        uses: redhat-actions/buildah-build@v2.10
         with:
           image: quay.io/jfdenise/wildfly-muti-arch
           tags: latest
