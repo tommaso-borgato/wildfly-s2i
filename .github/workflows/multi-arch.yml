@@ -65,8 +65,8 @@ jobs:
         uses: redhat-actions/push-to-registry@v2.6
         id: push
         with:
-          image: ${{ steps.build_image.outputs.image }}
-          tags: ${{ steps.build_image.outputs.tags }}
+          image: ${{ steps.build_image_multiplatform.outputs.image }}
+          tags: ${{ steps.build_image_multiplatform.outputs.tags }}
           registry: quay.io/${{ env.V2_QUAY_REPO }}
           username: ${{ secrets.V2_QUAY_USERNAME }}
           password: ${{ secrets.V2_QUAY_PASSWORD }}
