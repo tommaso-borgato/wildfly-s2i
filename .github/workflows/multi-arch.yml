@@ -64,7 +64,7 @@ jobs:
       - name: push image
         run: |
           podman login -u="${{ secrets.V2_QUAY_USERNAME }}" -p="${{ secrets.V2_QUAY_PASSWORD }}" quay.io
-          podman push quay.io/jfdenise/wildfly-muti-arch:latest
+          podman manifest push quay.io/jfdenise/wildfly-muti-arch:latest
       - name: Echo Outputs
         run: |
           echo "Image: ${{ steps.build_image_multiplatform.outputs.image }}"
