@@ -9,6 +9,7 @@ env:
   LANG: en_US.UTF-8
   V2_QUAY_REPO: ${{ secrets.V2_QUAY_REPO }}
   V2_QUAY_USERNAME: ${{ secrets.V2_QUAY_USERNAME }}
+  S2I_URI: https://api.github.com/repos/openshift/source-to-image/releases/latest
 jobs:
   wfci:
     name: Wildfly-s2i Image Deployment on push
@@ -63,7 +64,7 @@ jobs:
             ./wildfly-builder-image/target/image/Dockerfile
       - name: install s2i binary
         run: |
-          echo ===== Installing s2i from ${{ env.S2I_URL }} =====
+          echo ===== Installing s2i from ${{ env.S2I_URI }} =====
           mkdir /tmp/s2i/ && cd /tmp/s2i/
           curl -s ${{ env.S2I_URI }} \
            | grep browser_download_url \
