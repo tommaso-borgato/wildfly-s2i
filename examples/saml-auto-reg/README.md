@@ -104,7 +104,7 @@ oc apply -f saml-secret.yaml
 3. Create a secret for the keystore.
 
 ```
-oc create secret saml-app-secret <path to the downloaded keystore.jks file>
+oc create secret generic saml-app-secret --from-file=keystore.jks=./keystore.jks --type=opaque
 ```
 
 4. Deploy the example application using WildFly Helm charts
@@ -118,8 +118,8 @@ helm install saml-app -f helm.yaml wildfly/wildfly
 ```yaml
 stringData:
   ...
-  SSO_HOSTNAME_HTTPS: <saml-app application route>/saml-app
-  SSO_URL: https://<host of the keycloak server>/auth
+  SSO_HOSTNAME_HTTPS: https://saml-app-saml-test.apps.operator3-c11f.eapqe.psi.redhat.com/saml-app
+  SSO_URL: https://keycloak-saml-test.apps.operator3-c11f.eapqe.psi.redhat.com/auth
 ```
 
 The value of `SSO_HOSTNAME_HTTPS` corresponds to the output of
@@ -131,8 +131,26 @@ echo $(oc get route saml-app --template='{{ .spec.host }}/saml-app')
 The  value of `SSO_URL` corresponds to the output of
 
 ```
-echo https://$(oc get route sso --template='{{ .spec.host }}')/auth
+echo https://$(oc get route keycloak --template='{{ .spec.host }}')/auth
 ```
+
+Got 
+```log
+WARN HOSTNAME_HTTP and HOSTNAME_HTTPS are not set, trying to discover secure route by querying internal APIs[0m
+```
+solved using "Route Discovery":
+```shell
+oc create role routeview --verb=list --resource=route
+oc policy add-role-to-user routeview system:serviceaccount:saml-test:default --role-namespace=saml-test -n saml-test
+```
+
+Got
+```log
+WARN ERROR: SSO_SECRET not set. Make sure to generate a secret in the SSO/Keycloak client 'saml-app' configuration and then set the SSO_SECRET variable.
+WARN ERROR: Unable to register saml client for module saml-app in realm WildFly on "https://saml-app-saml-test.apps.operator3-c11f.eapqe.psi.redhat.com/saml-app/*","https://saml-app-saml-test.apps.operator3-c11f.eapqe.psi.redhat.com:443/saml-app/*": {"errorMessage":"Client saml-app already exists"}
+```
+But that's OK, client already exists;
+
 
 Then update the secret with `oc apply -f saml-secret.yaml`.
 
