@@ -1,6 +1,10 @@
 build:
-  uri: https://github.com/jfdenise/wildfly-s2i
+  uri: https://github.com/tommaso-borgato/wildfly-s2i
   contextDir: examples/saml-auto-reg
+  ref: saml-example-fix
+  env:
+    - name: MAVEN_MIRROR_URL
+      value: <MAVEN_MIRROR_URL>
 deploy:
   volumes:
     - name: saml-keystore-volume
